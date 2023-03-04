@@ -12,8 +12,8 @@ jobs:
     steps:
       - name: Auth Dev Org
         run: |
-          echo "${ JWT }" > ~/server.key
-          sfdx force:auth:jwt:grant --clientid "${ CONSUMER_KEY }" --jwtkeyfile ~/server.key --username "${ USERNAME }" --instanceurl "${ URL }" -s
+          echo $JWT > ~/server.key
+          sfdx force:auth:jwt:grant --clientid $CONSUMER_KEY --jwtkeyfile ~/server.key --username $USERNAME --instanceurl $URL -s
       - name: Checkout Repo
         uses: actions/checkout@v3
       - name: Check Deployment
