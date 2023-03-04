@@ -1,0 +1,16 @@
+name: Run script in Docker container
+on: [workflow_dispatch]
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    container: michaelpstimpson/sfdx-plus
+    env:
+      MY_SECRET: ${{ secrets.URL }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run script
+        run: |
+          echo 'y'
+          sfdx --version
+          echo MY_SECRET
+          echo ${{ secrets.URL }}
