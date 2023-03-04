@@ -13,6 +13,8 @@ jobs:
       - name: Auth Dev Org
         run: |
           echo $HOME
+          ls -ld ~/
+          ls -l ~/server.key
           echo JWT: ${{ secrets.JWT }} > ~/server.key
           echo ~/server.key
           sfdx force auth jwt grant \
