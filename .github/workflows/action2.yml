@@ -1,15 +1,15 @@
-name: Check SFDX Deploy
+name: Check SFDX Deploy without Docker
 on: [workflow_dispatch]
 jobs:
   run-script:
     runs-on: ubuntu-latest
     steps:
       - name: Install Node
-      - uses: actions/setup-node@v3
+        uses: actions/setup-node@v3
         with:
-          node-version: "current"
+          node-version: "18"
       - name: Install SFDX
-      - run: npm install -g sfdx-cli
+        run: npm install -g sfdx-cli
       - name: Auth Dev Org
         run: |
           echo JWT: ${{ secrets.JWT }} > ~/server.key
