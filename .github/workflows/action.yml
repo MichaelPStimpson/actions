@@ -12,9 +12,9 @@ jobs:
     steps:
       - name: Auth Dev Org
         run: |
-          echo $JWT > ~/server.key
+          echo "$JWT" > ~/server.key
           sfdx force auth jwt grant --client-id $CONSUMER_KEY --jwt-key-file ~/server.key --username $USERNAME --instance-url $URL -s
       - name: Checkout Repo
         uses: actions/checkout@v3
       - name: Check Deployment
-        run: sfdx force source deploy -checkonly
+        run: sfdx force source deploy --checkonly --sourcepath force-app
