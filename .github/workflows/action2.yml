@@ -12,7 +12,7 @@ jobs:
         run: npm install -g sfdx-cli
       - name: Auth Dev Org
         run: |
-          echo ${{ secrets.JWT }} > ~/server.key
+          echo "${{ secrets.JWT }}" > ~/server.key
           sfdx force auth jwt grant \
           --client-id ${{ secrets.CONSUMER_KEY }} \
           --jwt-key-file ~/server.key \
