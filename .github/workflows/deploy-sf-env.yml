@@ -1,0 +1,58 @@
+name: Deploy to Salesforce Environment
+on:
+  workflow_call:
+    inputs:
+      sandbox:
+        required: true
+        type: boolean
+      check-only:
+        required: true
+        type: boolean
+    secrets:
+      CONSUMER_KEY:
+        required: true
+      USERNAME:
+        required: true
+      URL:
+        required: true
+      JWT:
+        required: true
+
+jobs:
+  deploy-script:
+    runs-on: ubuntu-latest
+    container: michaelpstimpson/sfdx-plus
+    steps:
+      - name: Set Audience URL
+        run: |
+          if [ "${{ github.event.inputs.sandbox }}" = true ]; then
+            echo "::set-env name=SFDX_AUDIENCE_URL::https://test.salesforce.com"
+          else
+            echo "::set-env name=SFDX_AUDIENCE_URL::https://login.salesforce.com"
+          fi
+      - name: Auth Salesforce Environment
+        run: |
+          echo "$JWT" > ~/server.key
+          sfdx force auth jwt grant \
+          --client-id $CONSUMER_KEY \
+          --jwt-key-file ~/server.key \
+          --username $USERNAME \
+          --instance-url $URL \
+          -s
+        env:
+          CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
+          USERNAME: ${{ secrets.USERNAME }}
+          URL: ${{ secrets.URL }}
+          JWT: ${{ secrets.JWT }}
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Check Deployment
+        run: sfdx force source deploy \
+          --checkonly \
+          --sourcepath force-app
+      - name: Deployment
+        run: sfdx force source deploy \
+          --sourcepath force-app \
+          ${{ if inputs.check-only == true }} \
+          --checkonly \
+          {{ endif }}
