@@ -11,8 +11,6 @@ jobs:
       JWT: ${{ secrets.JWT }}
     steps:
       - name: Auth Dev Org
-        env:
-          SFDX_AUDIENCE_URL: "https://login.salesforce.com"
         run: |
           echo $JWT > ~/server.key
           sfdx force auth jwt grant --client-id $CONSUMER_KEY --jwt-key-file ~/server.key --username $USERNAME --instance-url $URL -s
