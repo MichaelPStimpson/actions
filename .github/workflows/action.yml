@@ -7,7 +7,6 @@ jobs:
     env:
       MY_SECRET: ${{ secrets.URL }}
     steps:
-      - uses: actions/checkout@v2
       - name: Run script
         run: |
           echo 'y'
