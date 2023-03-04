@@ -14,7 +14,7 @@ jobs:
         run: |
           echo $HOME
           echo JWT: ${{ secrets.JWT }} > ~/server.key
-          echo 
+          echo ~/server.key
           sfdx force auth jwt grant \
           --client-id ${{ secrets.CONSUMER_KEY }} \
           --jwt-key-file ~/server.key \
