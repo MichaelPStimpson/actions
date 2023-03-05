@@ -10,15 +10,6 @@ on:
       - synchronize
       - reopened
 jobs:
-  test-workflow:
-    runs-on: ubuntu-latest
-    steps:
-      - name: test
-        run: |
-          echo "test run"
-          echo ${{ github.ref }}
-          echo ${{ github.event.pull_request.base.ref }}
-
   qa-workflow:
     if: ${{ contains(github.ref, 'env/qa') }}
     uses: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
