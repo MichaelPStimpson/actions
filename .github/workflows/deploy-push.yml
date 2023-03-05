@@ -26,7 +26,7 @@ jobs:
       JWT: ${{ secrets.JWT }}
 
   uat-workflow:
-  if: ${{ contains(github.ref, env/uat) }}
+    if: ${{ contains(github.ref, env/uat) }}
     uses: ${{ deploy-push-action }}
     with:
       sandbox: true
@@ -40,7 +40,7 @@ jobs:
       JWT: ${{ secrets.JWT }}
 
   train-workflow:
-  if: ${{ contains(github.ref, env/train) }}
+    if: ${{ contains(github.ref, env/train) }}
     uses: ${{ deploy-push-action }}
     with:
       sandbox: true
@@ -54,7 +54,7 @@ jobs:
       JWT: ${{ secrets.JWT }}
 
   prod-workflow:
-  if: ${{ contains(github.ref, env/prod) }}
+    if: ${{ contains(github.ref, env/prod) }}
     uses: ${{ deploy-push-action }}
     with:
       sandbox: false
