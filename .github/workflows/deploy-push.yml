@@ -7,10 +7,13 @@ on:
       - env/train
       - env/prod
 
+env:
+  deploy-push-action: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
+
 jobs:
   qa-workflow:
     if: ${{ contains(github.ref, env/qa) }}
-    uses: ./.github/workflows/callable-scan-deploy-to-sf.yml@main
+    uses: ${{ deploy-push-action }}
     with:
       sandbox: true
       check-only: false
@@ -24,7 +27,7 @@ jobs:
 
   uat-workflow:
   if: ${{ contains(github.ref, env/uat) }}
-    uses: ./.github/workflows/callable-scan-deploy-to-sf.yml@main
+    uses: ${{ deploy-push-action }}
     with:
       sandbox: true
       check-only: false
@@ -38,7 +41,7 @@ jobs:
 
   train-workflow:
   if: ${{ contains(github.ref, env/train) }}
-    uses: ./.github/workflows/callable-scan-deploy-to-sf.yml@main
+    uses: ${{ deploy-push-action }}
     with:
       sandbox: true
       check-only: false
@@ -52,7 +55,7 @@ jobs:
 
   prod-workflow:
   if: ${{ contains(github.ref, env/prod) }}
-    uses: ./.github/workflows/callable-scan-deploy-to-sf.yml@main
+    uses: ${{ deploy-push-action }}
     with:
       sandbox: false
       check-only: false
