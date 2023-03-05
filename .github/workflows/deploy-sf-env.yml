@@ -41,8 +41,9 @@ jobs:
           sfdx scanner:run \
           --target "force-app" \
           --format "json" \
-          --category Security | cat sfdx-scanner-report.json
-          if [ $(jq '.violations | length' sfdx-scanner-report.json) -ne 0 ]; then
+          --category Security > ~/sfdx-scanner-report.json
+          cat ~/sfdx-scanner-report.json
+          if [ $(jq '.violations | length' ~/sfdx-scanner-report.json) -ne 0 ]; then
             cat sfdx-scanner-report.json
             exit 1
           else
