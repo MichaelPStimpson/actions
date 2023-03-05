@@ -27,6 +27,7 @@ on:
 jobs:
   deploy-script:
     runs-on: ubuntu-latest
+    #Container has OpenJdk17, Python3, Curl, JQ, SFDX, SFDX-Hardis, SFDX-Scanner, SFDX-Git-Delta
     container: michaelpstimpson/sfdx-plus:latest
     steps:
       - name: Checkout Repo
@@ -78,7 +79,7 @@ jobs:
           mkdir ~/manifest
           sfdx sgd:source:delta \
           --to "HEAD" \
-          --from "HEAD~1" \
+          --from "HEAD^" \
           --source force-app \
           --output ~/manifest \
           --ignore .sgdignore \
