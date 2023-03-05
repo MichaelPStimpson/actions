@@ -34,15 +34,12 @@ jobs:
 
       - name: Scan Code
         if: ${{ inputs.run-scan == true }}
-        #These plugins are installed in the docker img, but I had a path issue.
-        #GH caches the images, installing here as a temporary workaround.
+        #This plugin is installed in the docker img, but I had a path issue.
+        #Fixed and pushed it, but GH caches the images, installing here as a temporary workaround.
         run: |
           sfdx plugins install @salesforce/sfdx-scanner
-          echo 'y' | sfdx plugins install sfdx-hardis
-          echo 'y' | sfdx plugins install sfdx-git-delta
-          sfdx plugins
           sfdx scanner:run \
-          --target "force-app/**/*.{cls,trigger,js}" \
+          --target "force-app" \
           --format "json" \
           --category Security | cat sfdx-scanner-report.json
           if [ $(jq '.violations | length' sfdx-scanner-report.json) -ne 0 ]; then
@@ -76,7 +73,10 @@ jobs:
           JWT: ${{ secrets.JWT }}
 
       - name: Create Packages
+        #This plugin is installed in the docker img, but I had a path issue.
+        #Fixed and pushed it, but GH caches the images, installing here as a temporary workaround.
         run: |
+          echo 'y' | sfdx plugins install sfdx-git-delta
           sfdx sgd:source:delta \
           --to "HEAD" \
           --from "HEAD^" \
@@ -93,6 +93,11 @@ jobs:
 
       - name: Deployment
         run: |
+          if [[ ! $(grep -q "<members>" manifest/package/package.xml) \
+            && ! $(grep -q "<members>" manifest/destructiveChanges/destructiveChanges.xml) ]]; then
+            echo "No components to deploy."
+            exit 0
+          fi
           DEPLOY_COMMAND="sfdx force source deploy \ 
           --sourcepath force-app \
           --manifest manifest/package/package.xml \
