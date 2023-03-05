@@ -1,15 +1,27 @@
 name: Check SFDX Deploy without Docker
 on: [workflow_dispatch]
 jobs:
-  call-workflow-passing-data:
+  prod-workflow:
     uses: MichaelPStimpson/actions/.github/workflows/deploy-sf-env.yml@main
     with:
-      sandbox: true
+      sandbox: false
       check-only: true
-      run-scan: true
+      run-scan: false
       run-tests: false
     secrets:
       CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
       USERNAME: ${{ secrets.USERNAME }}
       URL: ${{ secrets.URL }}
+      JWT: ${{ secrets.JWT }}
+  qa-workflow:
+    uses: MichaelPStimpson/actions/.github/workflows/deploy-sf-env.yml@main
+    with:
+      sandbox: true
+      check-only: true
+      run-scan: false
+      run-tests: false
+    secrets:
+      CONSUMER_KEY: ${{ secrets.QA_CONSUMER_KEY }}
+      USERNAME: ${{ secrets.QA_USERNAME }}
+      URL: ${{ secrets.QA_URL }}
       JWT: ${{ secrets.JWT }}
