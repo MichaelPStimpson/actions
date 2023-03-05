@@ -33,7 +33,7 @@ jobs:
               body: "Sample PR",
               owner,
               repo,
-              head: ${{ env.RELEASE_NAME }},
+              head: "${{ env.RELEASE_NAME }}",
               base: main
             });
             github.rest.issues.addLabels({
