@@ -35,7 +35,7 @@ jobs:
       - name: Scan Code
         if: ${{ inputs.run-scan == true }}
         run: |
-          echo $SFDX_AUDIENCE_URL
+          sfdx plugins
           sfdx scanner:run --target "force-app/**/*.{cls,trigger,js}" --format "json" --category Security | cat sfdx-scanner-report.json
           if [ $(jq '.violations | length' sfdx-scanner-report.json) -ne 0 ]; then
             cat sfdx-scanner-report.json
