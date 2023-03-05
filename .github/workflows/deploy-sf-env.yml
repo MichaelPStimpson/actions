@@ -81,7 +81,7 @@ jobs:
           fi
           sfdx sgd:source:delta \
           --to "HEAD" \
-          --from "HEAD^" \
+          --from "HEAD~1" \
           --source force-app \
           --output ~/manifest \
           --ignore .sgdignore \
