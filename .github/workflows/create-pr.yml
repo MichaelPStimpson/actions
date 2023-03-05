@@ -1,10 +1,42 @@
 name: Create Pull Request
 on:
+  schedule:
+    - cron: '0 17,21 * * 1-5' #1PM & 5PM EST Monday through Friday
+    - cron: '0 16 * * 5' #12PM EST Friday
   workflow_dispatch:
-
+    inputs:
+      environment:
+        description: "Environment"
+        required: true
+        default: "QA"
+        type: choice
+        options:
+          - QA
+          - UAT
+          - TRAIN
+          - PROD
 jobs:
-  call-create-pr:
+  call-create-pr-for-qa:
+    if: inputs.environment == 'QA'
     uses: MichaelPStimpson/actions/.github/workflows/callable_create_pr.yml@main
     with:
-      base: "main"
-      head: "origin/dev"
+      base: "env/qa"
+      head: "origin/env/dev"
+  call-create-pr-for-uat:
+  if: inputs.environment == 'UAT'
+    uses: MichaelPStimpson/actions/.github/workflows/callable_create_pr.yml@main
+    with:
+      base: "env/uat"
+      head: "origin/env/qa"
+  call-create-pr-for-train:
+  if: inputs.environment == 'TRAIN'
+    uses: MichaelPStimpson/actions/.github/workflows/callable_create_pr.yml@main
+    with:
+      base: "env/train"
+      head: "origin/env/uat"
+  call-create-pr-for-prod:
+  if: inputs.environment == 'PROD'
+    uses: MichaelPStimpson/actions/.github/workflows/callable_create_pr.yml@main
+    with:
+      base: "env/prod"
+      head: "origin/env/uat"

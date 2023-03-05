@@ -2,15 +2,19 @@ name: Deploy to Salesforce Environment
 on:
   workflow_call:
     inputs:
+      #Determines the SFDX_AUDIENCE_URL
       sandbox:
         required: true
         type: boolean
+      #Run checkonly deployment
       check-only:
         required: true
         type: boolean
+      #Run sfdx-scanner
       run-scan:
         required: true
         type: boolean
+      #Run local tests
       run-tests:
         required: true
         type: boolean

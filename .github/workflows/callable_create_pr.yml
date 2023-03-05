@@ -2,10 +2,10 @@ name: Deploy to Salesforce Environment
 on:
   workflow_call:
     inputs:
-      base: #main
+      base: #Example: main, uat, test, etc
         required: true
         type: string
-      head: #origin/dev
+      head: #Example: origin/dev, origin/uat, origin/test, etc
         required: true
         type: string
 
@@ -20,6 +20,7 @@ jobs:
         with:
           fetch-depth: 0
 
+      #TODO: Remove my user info.
       - name: Create Pull Request
         run: |
           git config --global --add safe.directory /__w/actions/actions
@@ -31,6 +32,7 @@ jobs:
           git push origin $RELEASE_NAME
           echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
 
+      #TODO: Use the GH CLI to abstract request.
       - name: Create Pull Request
         uses: actions/github-script@v6
         with:
@@ -42,7 +44,7 @@ jobs:
               owner,
               repo,
               head: "${{ env.RELEASE_NAME }}",
-              base: "${{ inputs.base }}"
+              base: "${{ inputs.base }}""
             });
             github.rest.issues.addLabels({
               owner,
