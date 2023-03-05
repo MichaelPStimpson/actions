@@ -78,31 +78,32 @@ jobs:
         #Fixed and pushed it, but GH caches the images, installing here as a temporary workaround.
         run: |
           echo 'y' | sfdx plugins install sfdx-git-delta
+          mkdir ~/manifest
           sfdx sgd:source:delta \
           --to "HEAD" \
           --from "HEAD^" \
           --source force-app \
-          --output manifest \
+          --output ~/manifest \
           --ignore .sgdignore \
           --ignore-destructive .sgdignoreDestructive
           echo "----PACKAGE START"----"
-          cat manifest/package/package.xml
+          cat ~/manifest/package/package.xml
           echo "----PACKAGE END"----"
           echo "----DESTRUCTIVE PACKAGE START"----"
-          cat manifest/destructiveChanges/destructiveChanges.xml
+          cat ~/manifest/destructiveChanges/destructiveChanges.xml
           echo "----DESTRUCTIVE PACKAGE END"----"
 
       - name: Deployment
         run: |
-          if [[ ! $(grep -q "<members>" manifest/package/package.xml) \
-            && ! $(grep -q "<members>" manifest/destructiveChanges/destructiveChanges.xml) ]]; then
+          if [[ ! $(grep -q "<members>" ~/manifest/package/package.xml) \
+            && ! $(grep -q "<members>" ~/manifest/destructiveChanges/destructiveChanges.xml) ]]; then
             echo "No components to deploy."
             exit 0
           fi
           DEPLOY_COMMAND="sfdx force source deploy \ 
           --sourcepath force-app \
-          --manifest manifest/package/package.xml \
-          --postdestructivechanges manifest/destructiveChanges/destructiveChanges.xml"
+          --manifest ~/manifest/package/package.xml \
+          --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml"
           if [ "${{ inputs.check-only }}" == true]; then
             DEPLOY_COMMAND += " --checkonly"
           fi
