@@ -10,6 +10,12 @@ on:
       - synchronize
       - reopened
 jobs:
+  test-workflow:
+    - name: test
+        run: |
+          echo "test run"
+          echo ${{ github.ref }}
+
   qa-workflow:
     if: ${{ contains(github.ref, 'env/qa') }}
     uses: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
