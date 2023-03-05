@@ -24,11 +24,11 @@ jobs:
           gh pr create --help
           PR_NUMBER=gh pr create \
           -t "Automated PR" \
-          --body ":rocket :robot:" \
-          --base main \
-          --head RELEASE_NAME \
-          --label auto-pr \
-          --reviewer MichaelPStimpson
+          -b ":rocket :robot:" \
+          -B main \
+          -H RELEASE_NAME \
+          -l auto-pr \
+          -r MichaelPStimpson
           echo "The PR Number is: $PR_NUMBER"
       # - name: Create Pull Request
       #   run: |
