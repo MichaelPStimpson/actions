@@ -32,13 +32,6 @@ jobs:
     runs-on: ubuntu-latest
     container: michaelpstimpson/sfdx-plus
     steps:
-      - name: Set Audience URL
-        run: |
-          if [ "${{ github.event.inputs.sandbox }}" = true ]; then
-            echo "::set-env name=SFDX_AUDIENCE_URL::https://test.salesforce.com"
-          else
-            echo "::set-env name=SFDX_AUDIENCE_URL::https://login.salesforce.com"
-          fi
       - name: Auth Salesforce Environment
         run: |
           echo "$JWT" > ~/server.key
