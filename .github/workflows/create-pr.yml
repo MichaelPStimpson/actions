@@ -1,0 +1,38 @@
+name: create-pr
+run-name: ${{ github.actor }} is creating a PR.
+on:
+  schedule:
+    - cron: '1 1 1 1 1'
+  workflow_dispatch:
+    inputs:
+      targetEnv:
+        description: 'Environment'
+        required: true
+        default: 'QA'
+        type: choice
+        options:
+          - DEV
+          - QA
+          - UAT
+          - PROD
+jobs:
+  install-dependencies:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g sfdx-cli
+      - run: echo 'y' | sfdx plugins:install sfdx-git-delta
+
+  create-pull-request:
+    name: Create pull request to ${{ github.event.inputs.targetEnv }}
+    runs-on: ubuntu-latest
+    needs: [install-dependencies]
+    steps:
+      - name: Creating PR to ${{ github.event.inputs.targetEnv }}
+      ${{ 'env/'github.event.inputs.targetEnv }}
+      - run: https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#create-a-pull-request
+      maintainer_can_modifyboolean
