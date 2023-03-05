@@ -1,6 +1,6 @@
 name: TESTING PR
 on:
-  pull_requests:
+  pull_request:
     branches:
       - "*"
 
