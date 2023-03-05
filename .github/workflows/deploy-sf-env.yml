@@ -42,7 +42,7 @@ jobs:
             exit 1
           else
             echo "No violations found!"
-        fi
+          fi
 
       - name: Set Audience URL
         run: |
