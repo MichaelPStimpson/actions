@@ -50,21 +50,21 @@ jobs:
             exit 1
           fi
 
-      - name: Set Audience URL
+      - name: Auth Salesforce Environment
         run: |
           if [ ${{ inputs.sandbox }} = true ]; then
             echo "SFDX_AUDIENCE_URL=https://test.salesforce.com" >> $GITHUB_ENV
             SFDX_AUDIENCE_URL=https://test.salesforce.com
+            export SFDX_AUDIENCE_URL="https://test.salesforce.com"
           else
             echo "SFDX_AUDIENCE_URL=https://login.salesforce.com" >> $GITHUB_ENV
             SFDX_AUDIENCE_URL=https://login.salesforce.com
+            export SFDX_AUDIENCE_URL="https://login.salesforce.com"
           fi
+
           echo "SFDX_AUDIENCE_URL=${{ env.SFDX_AUDIENCE_URL }}"
-          echo SFDX_AUDIENCE_URL
           echo $SFDX_AUDIENCE_URL
 
-      - name: Auth Salesforce Environment
-        run: |
           echo "$JWT" > ~/server.key
           sfdx force auth jwt grant \
           --client-id $CONSUMER_KEY \
