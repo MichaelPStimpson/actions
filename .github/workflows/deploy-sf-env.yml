@@ -8,6 +8,15 @@ on:
       check-only:
         required: true
         type: boolean
+      run-scan:
+        required: true
+        type: boolean
+      run-tests:
+        required: true
+        type: boolean
+      min-test-coverage:
+        required: false
+        type: number
     secrets:
       CONSUMER_KEY:
         required: true
