@@ -50,7 +50,7 @@ jobs:
 
       - name: Set Audience URL
         run: |
-          if [ ${{ inputs.sandbox }} == true ]; then
+          if [ ${{ inputs.sandbox }} == "true" ]; then
             echo "SFDX_AUDIENCE_URL=https://test.salesforce.com" >> $GITHUB_ENV
           else
             echo "SFDX_AUDIENCE_URL=https://login.salesforce.com" >> $GITHUB_ENV
@@ -78,7 +78,7 @@ jobs:
           echo 'y' | sfdx plugins install sfdx-git-delta
           mkdir ~/manifest
           sfdx sgd:source:delta \
-          --to "feature/test" \
+          --to "HEAD" \
           --from "main" \
           --source force-app \
           --output ~/manifest \
