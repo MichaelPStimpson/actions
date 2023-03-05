@@ -29,8 +29,8 @@ jobs:
           script: |
             const {repo, owner, eventName } = context.repo;
             const result = await github.rest.pulls.create({
-              title: Sample PR,
-              body: Sample PR,
+              title: "Sample PR",
+              body: "Sample PR",
               owner,
               repo,
               head: ${{ env.RELEASE_NAME }},
