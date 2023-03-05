@@ -55,13 +55,14 @@ jobs:
           JWT: ${{ secrets.JWT }}
       - name: Checkout Repo
         uses: actions/checkout@v3
-      - name: Check Deployment
-        run: sfdx force source deploy \
-          --checkonly \
-          --sourcepath force-app
       - name: Deployment
-        run: sfdx force source deploy \
-          --sourcepath force-app \
-          ${{ if inputs.check-only == true }} \
-          --checkonly \
-          {{ endif }}
+        run: |
+          echo $SFDX_AUDIENCE_URL
+          if [ "${{ inputs.check-only }}" == true]; then
+            sfdx force source deploy \
+            --sourcepath force-app \
+            --checkonly 
+          else
+            sfdx force source deploy \
+            --sourcepath force-app \
+          fi
