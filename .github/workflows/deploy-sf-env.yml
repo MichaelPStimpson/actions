@@ -37,8 +37,7 @@ jobs:
 
       - name: Scan Code
         if: ${{ inputs.run-scan == true }}
-        #This plugin is installed in the docker img, but I had a path issue.
-        #Fixed and pushed it, but GH caches the images, installing here as a temporary workaround.
+        #TODO: Investigate GH Action container "sfdx plugins not found", but local container no issue.
         run: |
           sfdx plugins install @salesforce/sfdx-scanner
           sfdx scanner:run \
@@ -57,10 +56,6 @@ jobs:
           else
             echo "SFDX_AUDIENCE_URL=https://login.salesforce.com" >> $GITHUB_ENV
           fi
-
-          echo "SFDX_AUDIENCE_URL=${{ env.SFDX_AUDIENCE_URL }}"
-          echo $SFDX_AUDIENCE_URL
-
           echo "$JWT" > ~/server.key
           sfdx force auth jwt grant \
           --client-id $CONSUMER_KEY \
@@ -75,8 +70,7 @@ jobs:
           JWT: ${{ secrets.JWT }}
 
       - name: Create Packages
-        #This plugin is installed in the docker img, but I had a path issue.
-        #Fixed and pushed it, but GH caches the images, installing here as a temporary workaround.
+        #TODO: Investigate GH Action container "sfdx plugins not found", but local container no issue.
         run: |
           echo 'y' | sfdx plugins install sfdx-git-delta
           git config --global --add safe.directory /__w/actions/actions
