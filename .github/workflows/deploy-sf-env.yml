@@ -31,16 +31,17 @@ jobs:
     container: michaelpstimpson/sfdx-plus:latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 2
+      - name: Test HEAD^
+        run: git checkout HEAD^
 
       - name: Scan Code
         if: ${{ inputs.run-scan == true }}
         #This plugin is installed in the docker img, but I had a path issue.
         #Fixed and pushed it, but GH caches the images, installing here as a temporary workaround.
         run: |
-          sfdx plugins
           sfdx plugins install @salesforce/sfdx-scanner
           sfdx scanner:run \
           --target "force-app" \
