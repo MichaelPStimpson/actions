@@ -1,25 +1,15 @@
 name: Check SFDX Deploy without Docker
 on: [workflow_dispatch]
 jobs:
-  run-script:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-      - name: Install SFDX
-        run: npm install -g sfdx-cli
-      - name: Auth Dev Org
-        run: |
-          echo "${{ secrets.JWT }}" > ~/server.key
-          sfdx force auth jwt grant \
-          --client-id ${{ secrets.CONSUMER_KEY }} \
-          --jwt-key-file ~/server.key \
-          --username ${{ secrets.USERNAME }} \
-          --instance-url ${{ secrets.URL }} \
-          -s
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-      - name: Check Deployment
-        run: sfdx force source deploy --checkonly --sourcepath force-app
+  call-workflow-passing-data:
+    uses: MichaelPStimpson/actions/.github/workflows/deploy-sf-env.yml@main
+    with:
+      sandbox: false
+      check-only: true
+      run-scan: false
+      run-tests: false
+    secrets:
+      CONSUMER_KEY: ${{ secrets.envPAT }}
+      USERNAME: ${{ secrets.envPAT }}
+      URL: ${{ secrets.envPAT }}
+      JWT: ${{ secrets.envPAT }}
