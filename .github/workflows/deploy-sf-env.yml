@@ -34,7 +34,12 @@ jobs:
 
       - name: Scan Code
         if: ${{ inputs.run-scan == true }}
+        #These plugins are installed in the docker img, but I had a path issue.
+        #GH caches the images, installing here as a temporary workaround.
         run: |
+          sfdx plugins install @salesforce/sfdx-scanner
+          echo 'y' | sfdx plugins install sfdx-hardis
+          echo 'y' | sfdx plugins install sfdx-git-delta
           sfdx plugins
           sfdx scanner:run \
           --target "force-app/**/*.{cls,trigger,js}" \
@@ -79,12 +84,12 @@ jobs:
           --output manifest \
           --ignore .sgdignore \
           --ignore-destructive .sgdignoreDestructive
-
-      - name: Print Package
-        run: cat manifest/package/package.xml
-
-      - name: Print Destructive Package
-        run: cat manifest/destructiveChanges/destructiveChanges.xml
+          echo "----PACKAGE START"----"
+          cat manifest/package/package.xml
+          echo "----PACKAGE END"----"
+          echo "----DESTRUCTIVE PACKAGE START"----"
+          cat manifest/destructiveChanges/destructiveChanges.xml
+          echo "----DESTRUCTIVE PACKAGE END"----"
 
       - name: Deployment
         run: |
