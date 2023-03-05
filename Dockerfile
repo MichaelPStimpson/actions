@@ -16,19 +16,10 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
     && apt-get install -y nodejs
 
-# Install Yarn
-RUN npm install -g yarn
+RUN npm install -g sfdx-cli 
 
-# Install Salesforce CLI (sfdx)
-RUN curl -fsSL https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz | tar xJf - \
-    && cd sfdx-cli-v* \
-    && echo "y" | ./install
-
-# Install sfdx plugins
-RUN yarn global add sfdx-cli \
-    && yarn global add @salesforce/sfdx-scanner \
-    && yarn global add sfdx-hardis \
-    && yarn global add sfdx-git-delta --non-interactive --no-cache
-
+RUN sfdx plugins install @salesforce/sfdx-scanner
+RUN echo 'y' | sfdx plugins install sfdx-hardis
+RUN echo 'y' | sfdx plugins install sfdx-git-delta
 
 CMD ["/bin/bash"]

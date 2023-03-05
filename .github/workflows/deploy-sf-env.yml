@@ -27,7 +27,7 @@ on:
 jobs:
   deploy-script:
     runs-on: ubuntu-latest
-    container: michaelpstimpson/sfdx-plus
+    container: michaelpstimpson/sfdx-plus:latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
