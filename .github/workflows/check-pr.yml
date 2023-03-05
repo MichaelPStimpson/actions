@@ -2,8 +2,8 @@ name: Check Pull Request
 on:
   pull_request:
     branches:
-      - env/qa
-      - env/prod
+      - "env/qa"
+      - "env/prod"
     types:
       - opened
       - edited
