@@ -11,7 +11,7 @@ on:
       - reopened
 jobs:
   qa-workflow:
-    if: ${{ contains(github.ref, "env/qa") }}
+    if: ${{ contains(github.ref, 'env/qa') }}
     uses: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
       sandbox: true
@@ -25,7 +25,7 @@ jobs:
       JWT: ${{ secrets.JWT }}
 
   prod-workflow:
-    if: ${{ contains(github.ref, env/prod) }}
+    if: ${{ contains(github.ref, 'env/prod') }}
     uses: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
       sandbox: false
