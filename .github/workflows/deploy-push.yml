@@ -1,0 +1,60 @@
+name: Deploy push to salesforce environment
+on:
+  push:
+    branches:
+      - env/qa
+      - env/uat
+      - env/train
+      - env/prod
+jobs:
+  qa-workflow:
+    uses: MichaelPStimpson/actions/.github/workflows/deploy-sf-env.yml@main
+    with:
+      sandbox: true
+      check-only: false
+      run-scan: false
+      run-tests: true
+    secrets:
+      CONSUMER_KEY: ${{ secrets.QA_CONSUMER_KEY }}
+      USERNAME: ${{ secrets.QA_USERNAME }}
+      URL: ${{ secrets.QA_URL }}
+      JWT: ${{ secrets.JWT }}
+
+  uat-workflow:
+    uses: MichaelPStimpson/actions/.github/workflows/deploy-sf-env.yml@main
+    with:
+      sandbox: true
+      check-only: false
+      run-scan: false
+      run-tests: false
+    secrets:
+      CONSUMER_KEY: ${{ secrets.QA_CONSUMER_KEY }}
+      USERNAME: ${{ secrets.QA_USERNAME }}
+      URL: ${{ secrets.QA_URL }}
+      JWT: ${{ secrets.JWT }}
+
+  train-workflow:
+    uses: MichaelPStimpson/actions/.github/workflows/deploy-sf-env.yml@main
+    with:
+      sandbox: true
+      check-only: false
+      run-scan: false
+      run-tests: false
+    secrets:
+      CONSUMER_KEY: ${{ secrets.QA_CONSUMER_KEY }}
+      USERNAME: ${{ secrets.QA_USERNAME }}
+      URL: ${{ secrets.QA_URL }}
+      JWT: ${{ secrets.JWT }}
+
+  prod-workflow:
+    uses: MichaelPStimpson/actions/.github/workflows/deploy-sf-env.yml@main
+    with:
+      sandbox: false
+      check-only: false
+      run-scan: true
+      run-tests: true
+    secrets:
+      CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
+      USERNAME: ${{ secrets.USERNAME }}
+      URL: ${{ secrets.URL }}
+      JWT: ${{ secrets.JWT }}

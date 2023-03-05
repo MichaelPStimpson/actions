@@ -1,4 +1,4 @@
-name: Deploy to Salesforce Environment
+name: Scan, deploy, and test against salesforce environment
 on:
   workflow_call:
     inputs:

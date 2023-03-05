@@ -1,4 +1,4 @@
-name: Deploy to Salesforce Environment
+name: Create PR for target branch
 on:
   workflow_call:
     inputs:
@@ -10,7 +10,7 @@ on:
         type: string
 
 jobs:
-  deploy-script:
+  create-pull-request:
     runs-on: ubuntu-latest
     #Container has OpenJdk17, Python3, Curl, JQ, SFDX, SFDX-Hardis, SFDX-Scanner, SFDX-Git-Delta
     container: michaelpstimpson/sfdx-plus:latest
