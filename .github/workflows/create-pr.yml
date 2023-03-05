@@ -19,8 +19,7 @@ jobs:
           RELEASE_NAME="release/main-$(date '+%Y%m%d_%H%M')"
           git checkout -b $RELEASE_NAME
           git merge -X theirs origin/dev
-          PR_NUMBER=gh pr create \
-          --title "Automated PR" \
+          PR_NUMBER=gh pr create --title "Automated PR" \
           --body ":rocket :robot:" \
           --base main \
           --head RELEASE_NAME \
