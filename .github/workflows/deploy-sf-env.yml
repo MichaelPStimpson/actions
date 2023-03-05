@@ -90,6 +90,7 @@ jobs:
           echo "----DESTRUCTIVE PACKAGE END"----"
 
       - name: Deployment
+        #TODO: Add HARDIS after resolving test class issues.
         run: |
           if ! grep -q "<members>" ~/manifest/package/package.xml \
           && ! grep -q "<members>" ~/manifest/destructiveChanges/destructiveChanges.xml; then

@@ -24,7 +24,7 @@ jobs:
           echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
 
       - name: Create Pull Request
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: |
             const {repo, owner, eventName } = context.repo;
