@@ -57,10 +57,13 @@ jobs:
           echo $SFDX_AUDIENCE_URL
       - name: Deployment
         run: |
-          DEPLOY_COMMAND="sfdx force source deploy \
-                          --sourcepath force-app \
-                          ${ inputs.check-only:+"--checkonly" } \
-                          ${ inputs.run-tests:+"--testlevel=RunLocalTests"}"
+          DEPLOY_COMMAND="sfdx force source deploy --sourcepath force-app
+          if [ "${{ inputs.check-only }}" == true]; then
+            DEPLOY_COMMAND += " --checkonly"
+          fi
+          if [ "${{ inputs.run-tests }}" == true]; then
+            DEPLOY_COMMAND += " --testlevel=RunLocalTests"
+          fi
           echo "Deploy command: $DEPLOY_COMMAND"
           eval "$DEPLOY_COMMAND"
 

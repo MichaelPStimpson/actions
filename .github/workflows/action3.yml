@@ -1,0 +1,41 @@
+name: Check Pull Requests
+on:
+  pull_request_target:
+    branches:
+      - dev
+      - main
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+env:
+  dev: dev
+  prod: main
+jobs:
+  check-feature-pr:
+    if: ${{ contains(github.ref, env.dev) }}
+    uses: MichaelPStimpson/actions/.github/workflows/deploy-sf-env.yml@main
+    with:
+      sandbox: true
+      check-only: true
+      run-scan: true
+      run-tests: false
+    secrets:
+      CONSUMER_KEY: ${{ secrets.QA_CONSUMER_KEY }}
+      USERNAME: ${{ secrets.QA_USERNAME }}
+      URL: ${{ secrets.QA_URL }}
+      JWT: ${{ secrets.QA_JWT }}
+  check-prod-pr:
+    if: ${{ contains(github.ref, env.prod) }}
+    uses: MichaelPStimpson/actions/.github/workflows/deploy-sf-env.yml@main
+    with:
+      sandbox: false
+      check-only: true
+      run-scan: false
+      run-tests: true
+    secrets:
+      CONSUMER_KEY: ${{ secrets.PROD_CONSUMER_KEY }}
+      USERNAME: ${{ secrets.PROD_USERNAME }}
+      URL: ${{ secrets.PROD_URL }}
+      JWT: ${{ secrets.PROD_JWT }}
