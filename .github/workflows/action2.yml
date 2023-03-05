@@ -4,7 +4,7 @@ jobs:
   call-workflow-passing-data:
     uses: MichaelPStimpson/actions/.github/workflows/deploy-sf-env.yml@main
     with:
-      sandbox: false
+      sandbox: true
       check-only: true
       run-scan: true
       run-tests: false
