@@ -9,7 +9,7 @@ jobs:
       run-scan: false
       run-tests: false
     secrets:
-      CONSUMER_KEY: ${{ secrets.envPAT }}
-      USERNAME: ${{ secrets.envPAT }}
-      URL: ${{ secrets.envPAT }}
-      JWT: ${{ secrets.envPAT }}
+      CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
+      USERNAME: ${{ secrets.USERNAME }}
+      URL: ${{ secrets.URL }}
+      JWT: ${{ secrets.JWT }}
