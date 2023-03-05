@@ -57,7 +57,7 @@ jobs:
           else
             echo "SFDX_AUDIENCE_URL=https://login.salesforce.com" >> $GITHUB_ENV
           fi
-          echo ${{ env.SFDX_AUDIENCE_URL }}
+          echo "SFDX_AUDIENCE_URL=${{ env.SFDX_AUDIENCE_URL }}"
 
       - name: Auth Salesforce Environment
         run: |
