@@ -39,6 +39,7 @@ jobs:
         if: ${{ inputs.run-scan == true }}
         #TODO: Investigate GH Action container "sfdx plugins not found", but local container no issue.
         run: |
+          gh --version
           sfdx plugins install @salesforce/sfdx-scanner
           sfdx scanner:run \
           --target "force-app" \
