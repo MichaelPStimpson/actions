@@ -1,7 +1,6 @@
 name: TESTING PR
 on:
   pull_request_target:
-    branches:
     types:
       - opened
       - edited
