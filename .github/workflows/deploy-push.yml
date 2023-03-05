@@ -10,7 +10,7 @@ on:
 jobs:
   qa-workflow:
     if: ${{ contains(github.ref, env/qa) }}
-    uses: MichaelPStimpson/actions/.github/workflows/callables/callable-scan-deploy-to-sf.yml@main
+    uses: ./.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
       sandbox: true
       check-only: false
@@ -24,7 +24,7 @@ jobs:
 
   uat-workflow:
   if: ${{ contains(github.ref, env/uat) }}
-    uses: MichaelPStimpson/actions/.github/workflows/callables/callable-scan-deploy-to-sf.yml@main
+    uses: ./.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
       sandbox: true
       check-only: false
@@ -38,7 +38,7 @@ jobs:
 
   train-workflow:
   if: ${{ contains(github.ref, env/train) }}
-    uses: MichaelPStimpson/actions/.github/workflows/callables/callable-scan-deploy-to-sf.yml@main
+    uses: ./.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
       sandbox: true
       check-only: false
@@ -52,7 +52,7 @@ jobs:
 
   prod-workflow:
   if: ${{ contains(github.ref, env/prod) }}
-    uses: MichaelPStimpson/actions/.github/workflows/callables/callable-scan-deploy-to-sf.yml@main
+    uses: ./.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
       sandbox: false
       check-only: false

@@ -18,25 +18,25 @@ on:
 jobs:
   call-create-pr-for-qa:
     if: inputs.environment == 'QA'
-    uses: MichaelPStimpson/actions/.github/workflows/callables/callable_create_pr.yml@main
+    uses: ./.github/workflows/callable_create_pr.yml@main
     with:
       base: "env/qa"
       head: "origin/env/dev"
   call-create-pr-for-uat:
   if: inputs.environment == 'UAT'
-    uses: MichaelPStimpson/actions/.github/workflows/callables/callable_create_pr.yml@main
+    uses: ./.github/workflows/callable_create_pr.yml@main
     with:
       base: "env/uat"
       head: "origin/env/qa"
   call-create-pr-for-train:
   if: inputs.environment == 'TRAIN'
-    uses: MichaelPStimpson/actions/.github/workflows/callables/callable_create_pr.yml@main
+    uses: ./.github/workflows/callable_create_pr.yml@main
     with:
       base: "env/train"
       head: "origin/env/uat"
   call-create-pr-for-prod:
   if: inputs.environment == 'PROD'
-    uses: MichaelPStimpson/actions/.github/workflows/callables/callable_create_pr.yml@main
+    uses: ./.github/workflows/callable_create_pr.yml@main
     with:
       base: "env/prod"
       head: "origin/env/uat"
