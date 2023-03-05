@@ -108,4 +108,3 @@ jobs:
           fi
           echo "Deploy command: $DEPLOY_COMMAND"
           eval "$DEPLOY_COMMAND"
-      # LOAD DATA
