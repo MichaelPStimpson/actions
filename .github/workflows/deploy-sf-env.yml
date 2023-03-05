@@ -14,9 +14,6 @@ on:
       run-tests:
         required: true
         type: boolean
-      min-test-coverage:
-        required: false
-        type: number
     secrets:
       CONSUMER_KEY:
         required: true
@@ -29,9 +26,15 @@ on:
 
 jobs:
   deploy-script:
-    runs-on: ubuntu-latest
     container: michaelpstimpson/sfdx-plus
     steps:
+      - name: Set Audience URL
+        run: |
+          if [ "${{ inputs.sandbox }}" == true]; then
+            echo "SFDX_AUDIENCE_URL=https://test.salesforce.com" >> $GITHUB_ENV
+          else
+            echo "SFDX_AUDIENCE_URL=https://login.salesforce.com" >> $GITHUB_ENV
+          fi
       - name: Auth Salesforce Environment
         run: |
           echo "$JWT" > ~/server.key
@@ -48,14 +51,28 @@ jobs:
           JWT: ${{ secrets.JWT }}
       - name: Checkout Repo
         uses: actions/checkout@v3
-      - name: Deployment
+      - name: Scan Code
         run: |
           echo $SFDX_AUDIENCE_URL
-          if [ "${{ inputs.check-only }}" == true]; then
-            sfdx force source deploy \
-            --sourcepath force-app \
-            --checkonly 
-          else
-            sfdx force source deploy \
-            --sourcepath force-app
-          fi
+      - name: Deployment
+        run: |
+          DEPLOY_COMMAND="sfdx force source deploy \
+                          --sourcepath force-app \
+                          ${ inputs.check-only:+"--checkonly" } \
+                          ${ inputs.run-tests:+"--testlevel=RunLocalTests"}"
+          echo "Deploy command: $DEPLOY_COMMAND"
+          eval "$DEPLOY_COMMAND"
+
+# - name: Deployment
+#         run: |
+#           echo $SFDX_AUDIENCE_URL
+#           if [ "${{ inputs.check-only }}" == true]; then
+#             sfdx force source deploy \
+#             --sourcepath force-app \
+#             --checkonly
+#           else
+#             sfdx force source deploy \
+#             --sourcepath force-app
+#           fi
+# https://login.salesforce.com
+# https://test.salesforce.com
