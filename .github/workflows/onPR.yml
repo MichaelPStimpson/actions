@@ -1,0 +1,22 @@
+name: TESTING PR
+on:
+  pull_request_target:
+    branches:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    #Container has OpenJdk17, Python3, Curl, JQ, SFDX, SFDX-Hardis, SFDX-Scanner, SFDX-Git-Delta
+    container: michaelpstimpson/sfdx-plus:latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Create Pull Request
+        run: |
+          echo ${{ github.ref }}
