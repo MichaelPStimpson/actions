@@ -26,6 +26,7 @@ on:
 
 jobs:
   deploy-script:
+    runs-on: ubuntu-latest
     container: michaelpstimpson/sfdx-plus
     steps:
       - name: Set Audience URL
