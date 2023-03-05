@@ -16,6 +16,8 @@ jobs:
       - name: Create Pull Request
         run: |
           git config --global --add safe.directory /__w/actions/actions
+          git config user.email "MichaelPStimpson@outlook.com"
+          git config user.name "Michael Stimpson"
           RELEASE_NAME="release/main-$(date '+%Y%m%d_%H%M')"
           git checkout -b $RELEASE_NAME
           git merge -X theirs origin/dev
