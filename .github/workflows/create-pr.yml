@@ -34,7 +34,7 @@ jobs:
               owner,
               repo,
               head: "${{ env.RELEASE_NAME }}",
-              base: main
+              base: "main"
             });
             github.rest.issues.addLabels({
               owner,
