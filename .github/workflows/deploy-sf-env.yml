@@ -104,10 +104,10 @@ jobs:
           --sourcepath force-app \
           --manifest ~/manifest/package/package.xml \
           --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml"
-          if [ "${{ inputs.check-only }}" == true]; then
+          if [ "${{ inputs.check-only }}" == true ]; then
             DEPLOY_COMMAND += " --checkonly"
           fi
-          if [ "${{ inputs.run-tests }}" == true]; then
+          if [ "${{ inputs.run-tests }}" == true ]; then
             DEPLOY_COMMAND += " --testlevel=RunLocalTests"
           fi
           echo "Deploy command: $DEPLOY_COMMAND"
