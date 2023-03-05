@@ -64,6 +64,7 @@ jobs:
           if [ "${{ inputs.run-tests }}" == true]; then
             DEPLOY_COMMAND += " --testlevel=RunLocalTests"
           fi
+          DEPLOY_COMMAND += "\""
           echo "Deploy command: $DEPLOY_COMMAND"
           eval "$DEPLOY_COMMAND"
 
