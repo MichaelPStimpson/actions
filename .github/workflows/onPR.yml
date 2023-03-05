@@ -1,11 +1,5 @@
 name: TESTING PR
-on:
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - synchronize
-      - reopened
+on: [pull_request]
 
 jobs:
   create-pull-request:
