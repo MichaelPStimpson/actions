@@ -76,6 +76,9 @@ jobs:
         run: |
           echo 'y' | sfdx plugins install sfdx-git-delta
           mkdir ~/manifest
+          if [ -d .git ]; then
+            echo 'MICHAEL: IN REPO'
+          fi
           sfdx sgd:source:delta \
           --to "HEAD" \
           --from "HEAD^" \
