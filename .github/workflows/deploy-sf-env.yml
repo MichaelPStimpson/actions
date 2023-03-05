@@ -57,5 +57,5 @@ jobs:
             --checkonly 
           else
             sfdx force source deploy \
-            --sourcepath force-app \
+            --sourcepath force-app
           fi
