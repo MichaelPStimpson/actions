@@ -51,7 +51,6 @@ jobs:
 
       - name: Auth Salesforce Environment
         run: |
-          gh --version
           if [ ${{ inputs.sandbox }} = true ]; then
             echo "SFDX_AUDIENCE_URL=https://test.salesforce.com" >> $GITHUB_ENV
           else
