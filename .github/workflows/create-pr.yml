@@ -21,6 +21,7 @@ jobs:
           RELEASE_NAME="release/main-$(date '+%Y%m%d_%H%M')"
           git checkout -b $RELEASE_NAME
           git merge -X theirs origin/dev
+          git push origin $RELEASE_NAME
           echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
 
       - name: Create Pull Request
