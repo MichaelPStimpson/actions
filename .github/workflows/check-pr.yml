@@ -11,10 +11,13 @@ on:
       - reopened
 jobs:
   test-workflow:
+  runs-on: ubuntu-latest
+  steps:
     - name: test
-        run: |
-          echo "test run"
-          echo ${{ github.ref }}
+      run: |
+        echo "test run"
+        echo ${{ github.ref }}
+        echo ${{ github.event.pull_request.base.ref }}
 
   qa-workflow:
     if: ${{ contains(github.ref, 'env/qa') }}
