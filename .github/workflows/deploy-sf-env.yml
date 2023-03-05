@@ -78,8 +78,8 @@ jobs:
           echo 'y' | sfdx plugins install sfdx-git-delta
           mkdir ~/manifest
           sfdx sgd:source:delta \
-          --to "HEAD" \
-          --from "HEAD^" \
+          --to "feature/test" \
+          --from "main" \
           --source force-app \
           --output ~/manifest \
           --ignore .sgdignore \
