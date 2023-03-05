@@ -35,7 +35,9 @@ jobs:
         with:
           fetch-depth: 2
       - name: Test HEAD^
-        run: git checkout HEAD^
+        run: |
+          git config --global --add safe.directory /__w/actions/actions
+          git checkout HEAD^
 
       - name: Scan Code
         if: ${{ inputs.run-scan == true }}
