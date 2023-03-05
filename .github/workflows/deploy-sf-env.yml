@@ -35,9 +35,11 @@ jobs:
       - name: Scan Code
         if: ${{ inputs.run-scan == true }}
         run: |
-          echo 'export PATH=$PATH:/root/.local/share/sfdx/plugins' >> $GITHUB_ENV
           sfdx plugins
-          sfdx scanner:run --target "force-app/**/*.{cls,trigger,js}" --format "json" --category Security | cat sfdx-scanner-report.json
+          sfdx scanner:run \
+          --target "force-app/**/*.{cls,trigger,js}" \
+          --format "json" \
+          --category Security | cat sfdx-scanner-report.json
           if [ $(jq '.violations | length' sfdx-scanner-report.json) -ne 0 ]; then
             cat sfdx-scanner-report.json
             exit 1
@@ -68,9 +70,28 @@ jobs:
           URL: ${{ secrets.URL }}
           JWT: ${{ secrets.JWT }}
 
+      - name: Create Packages
+        run: |
+          sfdx sgd:source:delta \
+          --to "HEAD" \
+          --from "HEAD^" \
+          --source force-app \
+          --output manifest \
+          --ignore .sgdignore \
+          --ignore-destructive .sgdignoreDestructive
+
+      - name: Print Package
+        run: cat manifest/package/package.xml
+
+      - name: Print Destructive Package
+        run: cat manifest/destructiveChanges/destructiveChanges.xml
+
       - name: Deployment
         run: |
-          DEPLOY_COMMAND="sfdx force source deploy --sourcepath force-app"
+          DEPLOY_COMMAND="sfdx force source deploy \ 
+          --sourcepath force-app \
+          --manifest manifest/package/package.xml \
+          --postdestructivechanges manifest/destructiveChanges/destructiveChanges.xml"
           if [ "${{ inputs.check-only }}" == true]; then
             DEPLOY_COMMAND += " --checkonly"
           fi
