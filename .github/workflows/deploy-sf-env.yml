@@ -43,7 +43,7 @@ jobs:
           --format "json" \
           --category Security > ~/sfdx-scanner-report.json
           cat ~/sfdx-scanner-report.json
-          if [[ $(jq '.violations | length' ~/sfdx-scanner-report.json) -ne 0 ]]; then
+          if [[ ! grep -q "No rule violations found." ~/sfdx-scanner-report.json ]]; then
             cat sfdx-scanner-report.json
             exit 1
           else
