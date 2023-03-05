@@ -1,5 +1,5 @@
 public with sharing class SampleClass {
     public SampleClass() {
-        //Test comment 3
+        //Test comment 4
     }
 }

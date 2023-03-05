@@ -32,6 +32,7 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+          with fetch-depth: 2
 
       - name: Scan Code
         if: ${{ inputs.run-scan == true }}
@@ -50,7 +51,7 @@ jobs:
 
       - name: Set Audience URL
         run: |
-          if [ ${{ inputs.sandbox }} == "true" ]; then
+          if [ ${{ inputs.sandbox }} == true ]; then
             echo "SFDX_AUDIENCE_URL=https://test.salesforce.com" >> $GITHUB_ENV
           else
             echo "SFDX_AUDIENCE_URL=https://login.salesforce.com" >> $GITHUB_ENV
@@ -79,7 +80,7 @@ jobs:
           mkdir ~/manifest
           sfdx sgd:source:delta \
           --to "HEAD" \
-          --from "main" \
+          --from "HEAD^" \
           --source force-app \
           --output ~/manifest \
           --ignore .sgdignore \
