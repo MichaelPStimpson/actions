@@ -23,7 +23,7 @@ jobs:
           git merge -X theirs origin/dev
           gh pr create --help
           PR_NUMBER=gh pr create \
-          --title "Automated PR" \
+          -t "Automated PR" \
           --body ":rocket :robot:" \
           --base main \
           --head RELEASE_NAME \
