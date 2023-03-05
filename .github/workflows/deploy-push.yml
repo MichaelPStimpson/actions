@@ -13,7 +13,7 @@ env:
 jobs:
   qa-workflow:
     if: ${{ contains(github.ref, env/qa) }}
-    uses: ${{ deploy-push-action }}
+    uses: ${{ env.deploy-push-action }}
     with:
       sandbox: true
       check-only: false
@@ -27,7 +27,7 @@ jobs:
 
   uat-workflow:
     if: ${{ contains(github.ref, env/uat) }}
-    uses: ${{ deploy-push-action }}
+    uses: ${{ env.deploy-push-action }}
     with:
       sandbox: true
       check-only: false
@@ -41,7 +41,7 @@ jobs:
 
   train-workflow:
     if: ${{ contains(github.ref, env/train) }}
-    uses: ${{ deploy-push-action }}
+    uses: ${{ env.deploy-push-action }}
     with:
       sandbox: true
       check-only: false
@@ -55,7 +55,7 @@ jobs:
 
   prod-workflow:
     if: ${{ contains(github.ref, env/prod) }}
-    uses: ${{ deploy-push-action }}
+    uses: ${{ env.deploy-push-action }}
     with:
       sandbox: false
       check-only: false
