@@ -29,6 +29,21 @@ jobs:
     runs-on: ubuntu-latest
     container: michaelpstimpson/sfdx-plus
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Scan Code
+        if: ${{ inputs.run-scan == true }}
+        run: |
+          echo $SFDX_AUDIENCE_URL
+          sfdx scanner:run --target "force-app/**/*.{cls,trigger,js}" --format "json" --category Security | cat sfdx-scanner-report.json
+          if [ $(jq '.violations | length' sfdx-scanner-report.json) -ne 0 ]; then
+            cat sfdx-scanner-report.json
+            exit 1
+          else
+            echo "No violations found!"
+        fi
+
       - name: Set Audience URL
         run: |
           if [ "${{ inputs.sandbox }}" == true]; then
@@ -36,6 +51,7 @@ jobs:
           else
             echo "SFDX_AUDIENCE_URL=https://login.salesforce.com" >> $GITHUB_ENV
           fi
+
       - name: Auth Salesforce Environment
         run: |
           echo "$JWT" > ~/server.key
@@ -50,11 +66,7 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           URL: ${{ secrets.URL }}
           JWT: ${{ secrets.JWT }}
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-      - name: Scan Code
-        run: |
-          echo $SFDX_AUDIENCE_URL
+
       - name: Deployment
         run: |
           DEPLOY_COMMAND="sfdx force source deploy --sourcepath force-app"
@@ -66,17 +78,3 @@ jobs:
           fi
           echo "Deploy command: $DEPLOY_COMMAND"
           eval "$DEPLOY_COMMAND"
-
-# - name: Deployment
-#         run: |
-#           echo $SFDX_AUDIENCE_URL
-#           if [ "${{ inputs.check-only }}" == true]; then
-#             sfdx force source deploy \
-#             --sourcepath force-app \
-#             --checkonly
-#           else
-#             sfdx force source deploy \
-#             --sourcepath force-app
-#           fi
-# https://login.salesforce.com
-# https://test.salesforce.com
