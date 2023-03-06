@@ -12,5 +12,5 @@ jobs:
     steps:
       - name: Create Pull Request
         run: |
-          echo "THE BASE IS ${{ github.sha }}""
-          echo "The HEAD IS ${{ github.event.pull_request.head.sha }}"
+          echo "THE BASE IS $GITHUB_HEAD_REF"
+          echo "The HEAD IS $GITHUB_BASE_REF"
