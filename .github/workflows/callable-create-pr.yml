@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       #TODO: Remove my user info.
-      - name: Create Pull Request
+      - name: Create Branch
         run: |
           git config --global --add safe.directory /__w/actions/actions
           git config user.email "MichaelPStimpson@outlook.com"
