@@ -17,28 +17,28 @@ on:
           - PROD
 jobs:
   call-create-pr-for-qa:
-    if: inputs.environment == 'QA'
+    if: github.event.schedule == '0 17,21 * * 1-5' || inputs.environment == 'QA'
     uses: MichaelPStimpson/actions/.github/workflows/callable-create-pr.yml@main
     with:
       base: "env/qa"
       head: "origin/env/dev"
 
   call-create-pr-for-uat:
-    if: inputs.environment == 'UAT'
+    if: github.event.schedule == '0 16 * * 5' || inputs.environment == 'UAT'
     uses: MichaelPStimpson/actions/.github/workflows/callable-create-pr.yml@main
     with:
       base: "env/uat"
       head: "origin/env/qa"
 
   call-create-pr-for-train:
-    if: inputs.environment == 'TRAIN'
+    if: github.event.schedule == '0 16 * * 5' || inputs.environment == 'TRAIN'
     uses: MichaelPStimpson/actions/.github/workflows/callable-create-pr.yml@main
     with:
       base: "env/train"
       head: "origin/env/uat"
 
   call-create-pr-for-prod:
-    if: inputs.environment == 'PROD'
+    if: github.event.schedule == '0 16 * * 5' || inputs.environment == 'PROD'
     uses: MichaelPStimpson/actions/.github/workflows/callable-create-pr.yml@main
     with:
       base: "env/prod"
