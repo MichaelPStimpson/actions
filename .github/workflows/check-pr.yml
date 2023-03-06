@@ -12,7 +12,7 @@ on:
       - reopened
 jobs:
   dev-workflow:
-    if: ${{ contains(github.ref, env/dev) }}
+    if: ${{ contains($GITHUB_BASE_REF, env/dev) }}
     uses: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
       sandbox: true
@@ -26,7 +26,7 @@ jobs:
       JWT: ${{ secrets.JWT }}
 
   qa-workflow:
-    if: ${{ contains(github.ref, env/qa) }}
+    if: ${{ contains($GITHUB_BASE_REF, env/qa) }}
     uses: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
       sandbox: true
@@ -40,7 +40,7 @@ jobs:
       JWT: ${{ secrets.JWT }}
 
   prod-workflow:
-    if: ${{ contains(github.ref, env/prod) }}
+    if: ${{ contains($GITHUB_BASE_REF, env/prod) }}
     uses: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
       sandbox: false
