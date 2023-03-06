@@ -8,7 +8,7 @@ on:
       - "env/prod"
 
 jobs:
-  qa-workflow:
+  qa-deploy:
     if: ${{ contains(github.ref, 'env/qa') }}
     uses: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
@@ -22,7 +22,7 @@ jobs:
       URL: ${{ secrets.QA_URL }}
       JWT: ${{ secrets.JWT }}
 
-  uat-workflow:
+  uat-deploy:
     if: ${{ contains(github.ref, 'env/uat') }}
     uses: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
@@ -36,7 +36,7 @@ jobs:
       URL: ${{ secrets.QA_URL }}
       JWT: ${{ secrets.JWT }}
 
-  train-workflow:
+  train-deploy:
     if: ${{ contains(github.ref, 'env/train') }}
     uses: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
@@ -50,7 +50,7 @@ jobs:
       URL: ${{ secrets.QA_URL }}
       JWT: ${{ secrets.JWT }}
 
-  prod-workflow:
+  prod-deploy:
     if: ${{ contains(github.ref, 'env/prod') }}
     uses: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
     with:
