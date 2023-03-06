@@ -101,10 +101,10 @@ jobs:
             echo "No components to deploy."
             exit 0
           fi
-          DEPLOY_COMMAND="sfdx force source deploy \ 
-          --sourcepath force-app \
-          --manifest ~/manifest/package/package.xml \
-          --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml"
+          DEPLOY_COMMAND="sfdx force source deploy" 
+          DEPLOY_COMMAND+=" --sourcepath force-app"
+          DEPLOY_COMMAND+=" --manifest ~/manifest/package/package.xml"
+          DEPLOY_COMMAND+=" --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml"
           if [ ${{ inputs.check-only }} = true ]; then
             DEPLOY_COMMAND+=" --checkonly"
           fi
