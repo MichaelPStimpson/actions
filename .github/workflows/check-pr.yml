@@ -19,7 +19,7 @@ jobs:
       sandbox: true
       check-only: true
       run-scan: false
-      run-tests: falseecho "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
+      run-tests: false
     secrets:
       CONSUMER_KEY: ${{ secrets.QA_CONSUMER_KEY }}
       USERNAME: ${{ secrets.QA_USERNAME }}
