@@ -95,21 +95,35 @@ jobs:
 
       - name: Deployment
         #TODO: Add HARDIS after resolving test class issues.
+        #TODO: Replace commands with a single eval.
         run: |
           if ! grep -q "<members>" ~/manifest/package/package.xml \
           && ! grep -q "<members>" ~/manifest/destructiveChanges/destructiveChanges.xml; then
             echo "No components to deploy."
             exit 0
           fi
-          DEPLOY_COMMAND="sfdx force source deploy" 
-          DEPLOY_COMMAND+=" --sourcepath force-app"
-          DEPLOY_COMMAND+=" --manifest ~/manifest/package/package.xml"
-          DEPLOY_COMMAND+=" --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml"
-          if [ ${{ inputs.check-only }} = true ]; then
-            DEPLOY_COMMAND+=" --checkonly"
+          if [ ${{ inputs.check-only }} = true && ${{ inputs.run-tests }} = true ]; then
+            sfdx force source deploy \
+            --sourcepath force-app \
+            --manifest ~/manifest/package/package.xml \
+            --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
+            --checkonly \
+            --testlevel=RunLocalTests
+          elif [ ${{ inputs.check-only }} = false && ${{ inputs.run-tests }} = false ]; then
+            sfdx force source deploy \
+            --sourcepath force-app \
+            --manifest ~/manifest/package/package.xml \
+            --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml
+          elif [ ${{ inputs.check-only }} = true && ${{ inputs.run-tests }} = false ]; then
+            sfdx force source deploy \
+            --sourcepath force-app \
+            --manifest ~/manifest/package/package.xml \
+            --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
+            --checkonly
+          elif [ ${{ inputs.check-only }} = false && ${{ inputs.run-tests }} = true ]; then
+            sfdx force source deploy \
+            --sourcepath force-app \
+            --manifest ~/manifest/package/package.xml \
+            --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
+            --testlevel=RunLocalTests
           fi
-          if [ ${{ inputs.run-tests }} = true ]; then
-            DEPLOY_COMMAND+=" --testlevel=RunLocalTests"
-          fi
-          echo "Deploy command: $DEPLOY_COMMAND"
-          eval "$DEPLOY_COMMAND"
