@@ -22,6 +22,8 @@ jobs:
     with:
       base: "env/qa"
       head: "origin/env/dev"
+    secrets:
+      ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
 
   call-create-pr-for-uat:
     if: github.event.schedule == '0 16 * * 5' || inputs.environment == 'UAT'
@@ -29,6 +31,8 @@ jobs:
     with:
       base: "env/uat"
       head: "origin/env/qa"
+    secrets:
+      ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
 
   call-create-pr-for-train:
     if: github.event.schedule == '0 16 * * 5' || inputs.environment == 'TRAIN'
@@ -36,6 +40,8 @@ jobs:
     with:
       base: "env/train"
       head: "origin/env/uat"
+    secrets:
+      ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
 
   call-create-pr-for-prod:
     if: github.event.schedule == '0 16 * * 5' || inputs.environment == 'PROD'
@@ -43,3 +49,5 @@ jobs:
     with:
       base: "env/prod"
       head: "origin/env/uat"
+    secrets:
+      ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
