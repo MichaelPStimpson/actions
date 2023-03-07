@@ -40,18 +40,6 @@ jobs:
       URL: ${{ secrets.QA_URL }}
       JWT: ${{ secrets.JWT }}
 
-  uat-train-workflow:
-    if: ${{ (github.base_ref == 'env/uat' || github.base_ref == 'env/train') && contains(github.event.pull_request.labels.*.name, 'auto-pr') }}
-    uses: actions/github-script@v6
-    with:
-      script: |
-        const { repo, owner } = context.repo;
-        const result = github.rest.pulls.merge({
-          owner,
-          repo,
-          pull_number: "${{ github.event.number }}"
-        });
-
   prod-workflow:
     if: ${{ github.base_ref == 'env/prod' }}
     uses: MichaelPStimpson/actions/.github/workflows/callable-scan-deploy-to-sf.yml@main
