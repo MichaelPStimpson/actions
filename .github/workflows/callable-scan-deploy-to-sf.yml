@@ -91,7 +91,7 @@ jobs:
           mkdir ~/manifest
           sfdx sgd:source:delta \
           --to $HEAD \
-          --from $MERGE_BASE \
+          --from $BASE \
           --source force-app \
           --output ~/manifest \
           --ignore .sgdignore \
