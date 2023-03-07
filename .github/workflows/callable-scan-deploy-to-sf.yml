@@ -84,8 +84,11 @@ jobs:
           HEAD=${{ github.event.pull_request.head.sha }}
           MERGE_BASE=$(git merge-base $BASE $HEAD)
 
+
           echo "The base SHA is: $BASE"
+          echo "The base ref is: ${{ github.base.ref }}"
           echo "The head SHA is: $HEAD"
+          echo "The head ref is: ${{ github.event.pull_request.head.ref }}"
           echo "The MERGE_BASE SHA is: $MERGE_BASE"
 
           mkdir ~/manifest
@@ -96,6 +99,7 @@ jobs:
           --output ~/manifest \
           --ignore .sgdignore \
           --ignore-destructive .sgdignoreDestructive
+
           echo "----PACKAGE START----"
           cat ~/manifest/package/package.xml
           echo "----PACKAGE END----"
