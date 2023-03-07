@@ -42,7 +42,6 @@ jobs:
 
   uat-train-workflow:
     if: ${{ (github.base_ref == 'env/uat' || github.base_ref == 'env/train') && contains(github.event.pull_request.labels.*.name, 'auto-pr') }}
-    runs-on: ubuntu-latest
     uses: actions/github-script@v6
     with:
       script: |
