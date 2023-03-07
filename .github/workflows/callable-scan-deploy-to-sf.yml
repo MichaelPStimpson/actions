@@ -37,7 +37,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Scan Code
         if: ${{ inputs.run-scan == true }}
@@ -78,10 +78,15 @@ jobs:
         run: |
           echo 'y' | sfdx plugins install sfdx-git-delta
           git config --global --add safe.directory /__w/actions/actions
+
+          BASE=${{ github.sha }}
+          HEAD=${{ github.event.pull_request.head.sha }}
+          MERGE_BASE=$(git merge-base $BASE $HEAD)
+
           mkdir ~/manifest
           sfdx sgd:source:delta \
-          --to "HEAD" \
-          --from "HEAD^" \
+          --to $HEAD \
+          --from $MERGE_BASE \
           --source force-app \
           --output ~/manifest \
           --ignore .sgdignore \
