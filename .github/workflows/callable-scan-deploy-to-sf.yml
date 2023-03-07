@@ -91,12 +91,12 @@ jobs:
           --output ~/manifest \
           --ignore .sgdignore \
           --ignore-destructive .sgdignoreDestructive
-          echo "----PACKAGE START"----"
+          echo "----PACKAGE START----"
           cat ~/manifest/package/package.xml
-          echo "----PACKAGE END"----"
-          echo "----DESTRUCTIVE PACKAGE START"----"
+          echo "----PACKAGE END----"
+          echo "----DESTRUCTIVE PACKAGE START----"
           cat ~/manifest/destructiveChanges/destructiveChanges.xml
-          echo "----DESTRUCTIVE PACKAGE END"----"
+          echo "----DESTRUCTIVE PACKAGE END----"
 
       - name: Deployment
         #TODO: Add HARDIS after resolving test class issues.
