@@ -80,6 +80,8 @@ jobs:
           echo 'y' | sfdx plugins install sfdx-git-delta
           git config --global --add safe.directory /__w/actions/actions
 
+          echo "${{ toJson(github) }}"
+
           BASE=${{ github.sha }}
           HEAD=${{ github.event.pull_request.head.sha }}
           MERGE_BASE=$(git merge-base $BASE $HEAD)
