@@ -82,10 +82,8 @@ jobs:
 
           echo "${{ toJson(github) }}"
 
-#         BASE=${{ github.sha }}
-          BASE=${{ github.base.sha }}
-#         HEAD=${{ github.event.pull_request.head.sha }}
-          HEAD=${{ github.head.sha }}
+          BASE="${{ github.base.sha }}"
+          HEAD="${{ github.head.sha }}"
           MERGE_BASE=$(git merge-base $BASE $HEAD)
 
           echo "The base SHA is: $BASE"
