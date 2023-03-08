@@ -112,25 +112,25 @@ jobs:
             echo "No components to deploy."
             exit 0
           fi
-          if [ ${{ inputs.check-only }} = true && ${{ inputs.run-tests }} = true ]; then
+          if [ ${{ inputs.check-only }} = true ] && [ ${{ inputs.run-tests }} = true ]; then
             sfdx force source deploy \
             --sourcepath force-app \
             --manifest ~/manifest/package/package.xml \
             --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
             --checkonly \
             --testlevel=RunLocalTests
-          elif [ ${{ inputs.check-only }} = false && ${{ inputs.run-tests }} = false ]; then
+          elif [ ${{ inputs.check-only }} = false ] && [ ${{ inputs.run-tests }} = false ]; then
             sfdx force source deploy \
             --sourcepath force-app \
             --manifest ~/manifest/package/package.xml \
             --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml
-          elif [ ${{ inputs.check-only }} = true && ${{ inputs.run-tests }} = false ]; then
+          elif [ ${{ inputs.check-only }} = true ] && [ ${{ inputs.run-tests }} = false ]; then
             sfdx force source deploy \
             --sourcepath force-app \
             --manifest ~/manifest/package/package.xml \
             --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
             --checkonly
-          elif [ ${{ inputs.check-only }} = false && ${{ inputs.run-tests }} = true ]; then
+          elif [ ${{ inputs.check-only }} = false ] && [ ${{ inputs.run-tests }} = true ]; then
             sfdx force source deploy \
             --sourcepath force-app \
             --manifest ~/manifest/package/package.xml \
