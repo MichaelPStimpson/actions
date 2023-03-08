@@ -38,7 +38,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          refs: ${{ github.event.pull_request.head.sha }}
 
       - name: Scan Code
         if: ${{ inputs.run-scan == true }}
@@ -80,21 +79,18 @@ jobs:
           echo 'y' | sfdx plugins install sfdx-git-delta
           git config --global --add safe.directory /__w/actions/actions
 
-          BASE=${{ github.sha }}
-          HEAD=${{ github.event.pull_request.head.sha }}
+          BASE="origin/${{ github.base_ref }}"
+          HEAD="origin/${{ github.head_ref }}"
           MERGE_BASE=$(git merge-base $BASE $HEAD)
 
-
           echo "The base SHA is: $BASE"
-          echo "The base ref is: ${{ github.base.ref }}"
           echo "The head SHA is: $HEAD"
-          echo "The head ref is: ${{ github.event.pull_request.head.ref }}"
           echo "The MERGE_BASE SHA is: $MERGE_BASE"
 
           mkdir ~/manifest
           sfdx sgd:source:delta \
           --to $HEAD \
-          --from $BASE \
+          --from $MERGE_BASE \
           --source force-app \
           --output ~/manifest \
           --ignore .sgdignore \
@@ -116,25 +112,25 @@ jobs:
             echo "No components to deploy."
             exit 0
           fi
-          if [ ${{ inputs.check-only }} = true && ${{ inputs.run-tests }} = true ]; then
+          if [ ${{ inputs.check-only }} = true ] && [ ${{ inputs.run-tests }} = true ]; then
             sfdx force source deploy \
             --sourcepath force-app \
             --manifest ~/manifest/package/package.xml \
             --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
             --checkonly \
             --testlevel=RunLocalTests
-          elif [ ${{ inputs.check-only }} = false && ${{ inputs.run-tests }} = false ]; then
+          elif [ ${{ inputs.check-only }} = false ] && [ ${{ inputs.run-tests }} = false ]; then
             sfdx force source deploy \
             --sourcepath force-app \
             --manifest ~/manifest/package/package.xml \
             --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml
-          elif [ ${{ inputs.check-only }} = true && ${{ inputs.run-tests }} = false ]; then
+          elif [ ${{ inputs.check-only }} = true ] && [ ${{ inputs.run-tests }} = false ]; then
             sfdx force source deploy \
             --sourcepath force-app \
             --manifest ~/manifest/package/package.xml \
             --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
             --checkonly
-          elif [ ${{ inputs.check-only }} = false && ${{ inputs.run-tests }} = true ]; then
+          elif [ ${{ inputs.check-only }} = false ] && [ ${{ inputs.run-tests }} = true ]; then
             sfdx force source deploy \
             --sourcepath force-app \
             --manifest ~/manifest/package/package.xml \
