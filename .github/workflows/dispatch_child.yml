@@ -1,12 +1,13 @@
 name: Consume Dispatch
-on: workflow_dispatch
-  inputs:
-    base_ref:
-      type: string
-      required: true
-    head_ref:
-      required: true
-      type: string
+on:
+  workflow_dispatch:
+    inputs:
+      base_ref:
+        type: string
+        required: true
+      head_ref:
+        required: true
+        type: string
 
 jobs:
   test-dispatch:
@@ -17,7 +18,7 @@ jobs:
 
       - name: Install SFDX-Git-Delta
       - run: echo 'y' | sfdx plugins install sfdx-git-delta
-      
+
       - name: Find Merge Base
         run: |
           BASE="origin/${{ inputs.base_ref }}"
@@ -36,7 +37,7 @@ jobs:
           --output ~/manifest \
           --ignore .sgdignore \
           --ignore-destructive .sgdignoreDestructive
-      
+
       - name: Print Packge.xml
         run: cat ~/manifest/package/package.xml
 
@@ -68,7 +69,7 @@ jobs:
 
       - name: Deploy to Salesforce
         run: |
-            sfdx force source deploy \
-            --manifest ~/manifest/package/package.xml \
-            --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
-            --checkonly
+          sfdx force source deploy \
+          --manifest ~/manifest/package/package.xml \
+          --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
+          --checkonly
