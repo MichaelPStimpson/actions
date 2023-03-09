@@ -21,7 +21,7 @@ jobs:
     uses: MichaelPStimpson/actions/.github/workflows/callable-create-pr.yml@main
     with:
       base: "env/qa"
-      head: "origin/env/dev"
+      head: "env/dev"
     secrets:
       ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
 
