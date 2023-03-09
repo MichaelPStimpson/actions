@@ -11,6 +11,7 @@ on:
 
 jobs:
   test-dispatch:
+    runs-on: ubuntu-latest
     container: michaelpstimpson/sfdx-plus:latest
     steps:
       - name: Checkout Repo
