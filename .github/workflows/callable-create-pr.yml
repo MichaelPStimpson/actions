@@ -60,7 +60,7 @@ jobs:
             github.rest.actions.createWorkflowDispatch({
               owner,
               repo,
-              workflow_id: "Consume Dispatch",
+              workflow_id: "50685831",
               ref: "main",
               inputs: {
                 base_ref: "${{ inputs.base }}",
