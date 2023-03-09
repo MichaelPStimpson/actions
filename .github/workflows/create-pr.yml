@@ -30,7 +30,7 @@ jobs:
     uses: MichaelPStimpson/actions/.github/workflows/callable-create-pr.yml@main
     with:
       base: "env/uat"
-      head: "origin/env/qa"
+      head: "env/qa"
     secrets:
       ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
 
@@ -39,7 +39,7 @@ jobs:
     uses: MichaelPStimpson/actions/.github/workflows/callable-create-pr.yml@main
     with:
       base: "env/train"
-      head: "origin/env/uat"
+      head: "env/uat"
     secrets:
       ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
 
@@ -48,6 +48,6 @@ jobs:
     uses: MichaelPStimpson/actions/.github/workflows/callable-create-pr.yml@main
     with:
       base: "env/prod"
-      head: "origin/env/uat"
+      head: "env/uat"
     secrets:
       ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
