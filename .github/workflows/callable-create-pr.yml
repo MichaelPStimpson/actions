@@ -9,7 +9,7 @@ on:
         required: true
         type: string
     secrets:
-      ACTIONS_PAT:
+      CLASSIC_TOKEN:
         required: true
 jobs:
   create-pull-request:
@@ -38,7 +38,7 @@ jobs:
       - name: Create Pull Request
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.ACTIONS_PAT }}
+          github-token: ${{ secrets.CLASSIC_TOKEN }}
           script: |
             const { repo, owner, eventName } = context.repo;
             const result = await github.rest.pulls.create({
@@ -57,13 +57,3 @@ jobs:
                 labels:['auto-pr']
               });
             }
-            github.rest.actions.createWorkflowDispatch({
-              owner,
-              repo,
-              workflow_id: "50685831",
-              ref: "main",
-              inputs: {
-                base_ref: "${{ inputs.base }}",
-                head_ref: "${{ inputs.head }}"
-              }
-            });
