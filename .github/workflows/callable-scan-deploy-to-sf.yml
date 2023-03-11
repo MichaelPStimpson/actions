@@ -34,10 +34,10 @@ jobs:
     #Container has OpenJdk17, Python3, Curl, JQ, SFDX, SFDX-Hardis, SFDX-Scanner, SFDX-Git-Delta
     container: michaelpstimpson/sf-pipeline:dev
     steps:
-       - name: Check for plugins
+      - name: Check for plugins
         run: |
           sfdx plugins
-          
+
       - name: Checkout Repo
         uses: actions/checkout@v3
         with:
