@@ -24,7 +24,7 @@ jobs:
       base: "env/qa"
       head: "env/dev"
     secrets:
-      ACTIONS_PAT: ${{ secrets.CLASSIC_TOKEN }}
+      CLASSIC_TOKEN: ${{ secrets.CLASSIC_TOKEN }}
 
   call-create-pr-for-uat:
     if: github.event.schedule == '0 16 * * 5' || inputs.environment == 'UAT'
@@ -33,7 +33,7 @@ jobs:
       base: "env/uat"
       head: "env/qa"
     secrets:
-      ACTIONS_PAT: ${{ secrets.CLASSIC_TOKEN }}
+      CLASSIC_TOKEN: ${{ secrets.CLASSIC_TOKEN }}
 
   call-create-pr-for-train:
     if: github.event.schedule == '0 16 * * 5' || inputs.environment == 'TRAIN'
@@ -42,7 +42,7 @@ jobs:
       base: "env/train"
       head: "env/uat"
     secrets:
-      ACTIONS_PAT: ${{ secrets.CLASSIC_TOKEN }}
+      CLASSIC_TOKEN: ${{ secrets.CLASSIC_TOKEN }}
 
   call-create-pr-for-prod:
     if: github.event.schedule == '0 16 * * 5' || inputs.environment == 'PROD'
@@ -51,4 +51,4 @@ jobs:
       base: "env/prod"
       head: "env/uat"
     secrets:
-      ACTIONS_PAT: ${{ secrets.CLASSIC_TOKEN }}
+      CLASSIC_TOKEN: ${{ secrets.CLASSIC_TOKEN }}
