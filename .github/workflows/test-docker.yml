@@ -11,6 +11,8 @@ jobs:
 
       - name: Link Plugins
         run: |
+          echo $PWD
+          cd "/use/local/sfdx"
           sfdx plugins link "/root/.local/share/sfdx/node_modules/sfdx-git-delta"
           sfdx plugins link "/root/.local/share/sfdx/node_modules/sfdx-hardis"
           sfdx plugins link "/root/.local/share/sfdx/node_modules/@salesforce/sfdx-scanner"
