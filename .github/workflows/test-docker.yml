@@ -1,0 +1,19 @@
+name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    #Container has OpenJdk17, Python3, Curl, JQ, SFDX, SFDX-Hardis, SFDX-Scanner, SFDX-Git-Delta
+    container: michaelpstimpson/sf-pipeline:slim
+    steps:
+      - name: Check plugins
+        run: sfdx plugins
+
+      - name: Link Plugins
+        run: |
+          sfdx plugins link "/root/.local/share/sfdx/node_modules/sfdx-git-delta"
+          sfdx plugins link "/root/.local/share/sfdx/node_modules/sfdx-hardis"
+          sfdx plugins link "/root/.local/share/sfdx/node_modules/@salesforce/sfdx-scanner"
+
+      - name: Check plugins again...
+        run: sfdx plugins
