@@ -4,8 +4,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     #Container has OpenJdk17, Python3, Curl, JQ, SFDX, SFDX-Hardis, SFDX-Scanner, SFDX-Git-Delta
-    container: michaelpstimpson/sf-pipeline:base
+    container: michaelpstimpson/sf-pipeline:slim
     steps:
+      - name: Check plugins
+        run: sfdx plugins
+
       - name: Install sudo
         run: |
           apt-get update
