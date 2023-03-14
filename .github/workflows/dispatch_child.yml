@@ -1,0 +1,74 @@
+name: Consume Dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      base_ref:
+        type: string
+        required: true
+      head_ref:
+        required: true
+        type: string
+
+jobs:
+  test-dispatch:
+    runs-on: ubuntu-latest
+    container: michaelpstimpson/sfdx-plus:latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install SFDX-Git-Delta
+        run: echo 'y' | sfdx plugins install sfdx-git-delta
+
+      - name: Find Merge Base
+        run: |
+          git config --global --add safe.directory /__w/actions/actions
+
+          BASE="origin/${{ inputs.base_ref }}"
+          HEAD="origin/${{ inputs.head_ref }}"
+          MERGE_BASE=$(git merge-base $BASE $HEAD)
+
+          echo "The base SHA is: $BASE"
+          echo "The head SHA is: $HEAD"
+          echo "The MERGE_BASE SHA is: $MERGE_BASE"
+
+          mkdir ~/manifest
+          sfdx sgd:source:delta \
+          --to $HEAD \
+          --from $MERGE_BASE \
+          --source force-app \
+          --output ~/manifest \
+          --ignore .sgdignore \
+          --ignore-destructive .sgdignoreDestructive
+
+      - name: Print Packge.xml
+        run: cat ~/manifest/package/package.xml
+
+      - name: Print Destructive Package.xml
+        run: cat ~/manifest/package/package.xml
+
+      - name: Auth Salesforce Environment
+        run: |
+          echo "SFDX_AUDIENCE_URL=https://login.salesforce.com" >> $GITHUB_ENV
+
+          echo "$JWT" > ~/server.key
+          sfdx force auth jwt grant \
+          --client-id $CONSUMER_KEY \
+          --jwt-key-file ~/server.key \
+          --username $USERNAME \
+          --instance-url $URL \
+          -s
+        env:
+          CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
+          USERNAME: ${{ secrets.USERNAME }}
+          URL: ${{ secrets.URL }}
+          JWT: ${{ secrets.JWT }}
+
+      - name: Deploy to Salesforce
+        run: |
+          sfdx force source deploy \
+          --manifest ~/manifest/package/package.xml \
+          --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
+          --checkonly
