@@ -9,13 +9,13 @@ on:
         required: true
         type: string
     secrets:
-      ACTIONS_PAT:
+      CLASSIC_TOKEN:
         required: true
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
     #Container has OpenJdk17, Python3, Curl, JQ, SFDX, SFDX-Hardis, SFDX-Scanner, SFDX-Git-Delta
-    container: michaelpstimpson/sfdx-plus:latest
+    #container: michaelpstimpson/sfdx-plus:latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -30,7 +30,7 @@ jobs:
           git config user.name "Michael Stimpson"
           RELEASE_NAME="release/main-$(date '+%Y%m%d_%H%M')"
           git checkout -b $RELEASE_NAME
-          git merge -X theirs ${{ inputs.head }}
+          git merge -X theirs "origin/${{ inputs.head }}"
           git push origin $RELEASE_NAME
           echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
 
@@ -38,7 +38,7 @@ jobs:
       - name: Create Pull Request
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.ACTIONS_PAT }}
+          github-token: ${{ secrets.CLASSIC_TOKEN }}
           script: |
             const { repo, owner, eventName } = context.repo;
             const result = await github.rest.pulls.create({
