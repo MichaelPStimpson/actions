@@ -15,8 +15,9 @@ jobs:
         run: | 
           npm install --global xml2js xml-buffer-tostring
           npm list -g --depth=0
-          npm link ~/opt/hostedtoolcache/node/18.15.0/x64/lib/xml-buffer-tostring@0.2.0
-          npm link ~/opt/hostedtoolcache/node/18.15.0/x64/lib/xml2js@0.5.0
+          npm root
+          npm link ../../opt/hostedtoolcache/node/18.15.0/x64/lib/xml-buffer-tostring@0.2.0
+          npm link ../../opt/hostedtoolcache/node/18.15.0/x64/lib/xml2js@0.5.0
 
       - name: Run my script
         run: |
