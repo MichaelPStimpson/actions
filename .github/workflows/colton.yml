@@ -16,7 +16,7 @@ jobs:
           npm install --global xml2js xml-buffer-tostring
           npm list -g --depth=0
           npm root -g
-          cd | npm root -g
+          cd /opt/hostedtoolcache/node/18.15.0/x64/lib/node_modules
           pwd
           dir
           ls | npm root -g
