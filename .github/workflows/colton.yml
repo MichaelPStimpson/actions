@@ -16,8 +16,9 @@ jobs:
           npm install --global xml2js xml-buffer-tostring
           npm list -g --depth=0
           npm root
-          ls ~/work/actions/actions/node_modules/
-          ls ./work/actions/actions/node_modules/
+          ls
+          ls ~/work/actions/actions/node_modules
+          ls ./work/actions/actions/node_modules
           ls | npm root
           npm link ~/work/actions/actions/node_modules/xml-buffer-tostring@0.2.0
           npm link ~/work/actions/actions/node_modules/xml2js@0.5.0
