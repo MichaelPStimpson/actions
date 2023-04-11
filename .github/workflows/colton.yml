@@ -17,7 +17,6 @@ jobs:
       - name: Install Salesforce CLI
         run: | 
           npm install --global xml2js xml-buffer-tostring
-          npm list -g --depth=0
           npm link xml2js
           npm link xml-buffer-tostring
 
