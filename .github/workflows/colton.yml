@@ -1,0 +1,22 @@
+name: 'Colton job'
+
+on: workflow_dispatch
+
+jobs:
+  test-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+      
+      - name: Install Salesforce CLI
+        run: | 
+          npm install --global xml2js xml-buffer-tostring
+          npm list -g --depth=0
+          
+      - name: Run my script
+        run: |
+           node scripts/my-test.js > ~/results.txt
+           cat ~/results.txt
