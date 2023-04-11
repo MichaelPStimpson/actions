@@ -1,3 +1,3 @@
-//const xml2js = require('/opt/hostedtoolcache/node/18.15.0/x64/lib/node_modules/xml2js');
-//const xmlBufferToString = require('/opt/hostedtoolcache/node/18.15.0/x64/lib/node_modules/xml-buffer-tostring');
+const xml2js = require('xml2js');
+const xmlBufferToString = require('xml-buffer-tostring');
 console.log('colton');
