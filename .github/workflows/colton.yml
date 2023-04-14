@@ -13,13 +13,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 18
-      
-      - name: Install Salesforce CLI
-        run: | 
-          #npm install --global xml2js xml-buffer-tostring
-          #npm link xml2js
-          #npm link xml-buffer-tostring
 
+      - name: Prints
+        run: ls ~
+        
       - name: Run my script
         run: |
            node scripts/test.js > ~/results.txt
