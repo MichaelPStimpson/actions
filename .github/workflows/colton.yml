@@ -16,11 +16,11 @@ jobs:
       
       - name: Install Salesforce CLI
         run: | 
-          npm install --global xml2js xml-buffer-tostring
-          npm link xml2js
-          npm link xml-buffer-tostring
+          #npm install --global xml2js xml-buffer-tostring
+          #npm link xml2js
+          #npm link xml-buffer-tostring
 
       - name: Run my script
         run: |
-           node scripts/my-test.js > ~/results.txt
+           node scripts/test.js > ~/results.txt
            cat ~/results.txt
