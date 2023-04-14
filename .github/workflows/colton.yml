@@ -17,6 +17,12 @@ jobs:
       - name: Prints
         run: ls ~
         
+      - name: Prints 2
+        run: ls ~/work
+        
+      - name: Prints 3
+        run: ls ~/runners
+        
       - name: Run my script
         run: |
            node scripts/test.js > ~/results.txt
