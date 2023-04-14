@@ -15,39 +15,40 @@ on:
           - UAT
           - TRAIN
           - PROD
+
 jobs:
   call-create-pr-for-qa:
     if: github.event.schedule == '0 17,21 * * 1-5' || inputs.environment == 'QA'
     uses: MichaelPStimpson/actions/.github/workflows/callable-create-pr.yml@main
     with:
       base: "env/qa"
-      head: "origin/env/dev"
+      head: "env/dev"
     secrets:
-      ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
+      CLASSIC_TOKEN: ${{ secrets.CLASSIC_TOKEN }}
 
   call-create-pr-for-uat:
     if: github.event.schedule == '0 16 * * 5' || inputs.environment == 'UAT'
     uses: MichaelPStimpson/actions/.github/workflows/callable-create-pr.yml@main
     with:
       base: "env/uat"
-      head: "origin/env/qa"
+      head: "env/qa"
     secrets:
-      ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
+      CLASSIC_TOKEN: ${{ secrets.CLASSIC_TOKEN }}
 
   call-create-pr-for-train:
     if: github.event.schedule == '0 16 * * 5' || inputs.environment == 'TRAIN'
     uses: MichaelPStimpson/actions/.github/workflows/callable-create-pr.yml@main
     with:
       base: "env/train"
-      head: "origin/env/uat"
+      head: "env/uat"
     secrets:
-      ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
+      CLASSIC_TOKEN: ${{ secrets.CLASSIC_TOKEN }}
 
   call-create-pr-for-prod:
     if: github.event.schedule == '0 16 * * 5' || inputs.environment == 'PROD'
     uses: MichaelPStimpson/actions/.github/workflows/callable-create-pr.yml@main
     with:
       base: "env/prod"
-      head: "origin/env/uat"
+      head: "env/uat"
     secrets:
-      ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
+      CLASSIC_TOKEN: ${{ secrets.CLASSIC_TOKEN }}
