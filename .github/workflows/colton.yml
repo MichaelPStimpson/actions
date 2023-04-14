@@ -14,6 +14,9 @@ jobs:
         with:
           node-version: 18
 
+      - name: pwd
+        run: pwd
+        
       - name: Prints
         run: ls ~
         
@@ -22,6 +25,9 @@ jobs:
         
       - name: Prints 3
         run: ls ~/runners
+        
+      - name: Prints 4
+        run: ls ~/runners/actions
         
       - name: Run my script
         run: |
