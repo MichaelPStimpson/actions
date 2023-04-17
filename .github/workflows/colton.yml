@@ -1,0 +1,32 @@
+name: 'Colton job'
+
+on: workflow_dispatch
+
+jobs:
+  test-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Install npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: pwd
+        run: pwd
+        
+      - name: Prints
+        run: ls ~
+        
+      - name: Prints 2
+        run: ls ~/work
+        
+      - name: Prints 3
+        run: ls ~/runners
+        
+      - name: Run my script
+        run: |
+           node scripts/test.js > ~/results.txt
+           cat ~/results.txt
