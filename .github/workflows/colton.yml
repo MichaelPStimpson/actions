@@ -18,20 +18,20 @@ jobs:
       - name: Install Delta
       - run: sfdx plugins:install @salesforce/sfdx-scanner
 
-      - name: pwd
-        run: pwd
+     # - name: pwd
+     #   run: pwd
         
-      - name: Prints
-        run: ls ~
+     # - name: Prints
+     #   run: ls ~
         
-      - name: Prints 2
-        run: ls ~/work
+     # - name: Prints 2
+     #   run: ls ~/work
         
-      - name: Prints 3
-        run: ls ~/runners
+     # - name: Prints 3
+      #  run: ls ~/runners
         
-      - name: Run my script
-        run: npm install -g sfdx-cli
+     # - name: Run my script
+     #   run: npm install -g sfdx-cli
         
-      - name: Install plugins
-        run: sfdx plugins install sfdx-git-delta
+      #- name: Install plugins
+     #   run: sfdx plugins install sfdx-git-delta
