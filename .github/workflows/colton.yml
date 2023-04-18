@@ -16,7 +16,7 @@ jobs:
           node-version: 18
       
       - name: Install Delta
-        run: sfdx plugins:install @salesforce/sfdx-scanner
+        run: sfdx plugins install @salesforce/sfdx-scanner
 
      # - name: pwd
      #   run: pwd
