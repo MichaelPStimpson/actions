@@ -27,6 +27,7 @@ jobs:
         run: ls ~/runners
         
       - name: Run my script
-        run: |
-           node scripts/test.js > ~/results.txt
-           cat ~/results.txt
+        run: npm install -g sfdx-cli
+        
+      - name: Install plugins
+        run: sfdx plugins install sfdx-git-delta
