@@ -5,19 +5,19 @@ on: workflow_dispatch
 jobs:
   test-script:
     runs-on: ubuntu-latest
-    #container: michaelpstimpson/sfdx-plus:latest
+    container: michaelpstimpson/sfdx-plus:latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Install npm
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18
-      - name: Install salesforce
-        run: npm install -g sfdx-cli
+     # - name: Install npm
+      #  uses: actions/setup-node@v2
+      #  with:
+      #    node-version: 18
+      #- name: Install salesforce
+      #  run: npm install -g sfdx-cli
       
       - name: Install Delta
         run: sfdx plugins install @salesforce/sfdx-scanner
