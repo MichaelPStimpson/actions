@@ -23,7 +23,14 @@ jobs:
      #   run: sfdx plugins install @salesforce/sfdx-scanner
      
       - name: Run Script
-        run: node scripts/my-test.js one,two,three
+        run: |
+          file_names="SampleClass"
+          IFS=',' read -ra files <<< "$file_names"
+          for file in "${files[@]}"
+          do
+            find . -type f -name "$file" > ~/out.txt
+            cat ~/out.txt
+          done
 
      # - name: pwd
      #   run: pwd
