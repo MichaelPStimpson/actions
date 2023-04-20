@@ -19,8 +19,11 @@ jobs:
       #- name: Install salesforce
       #  run: npm install -g sfdx-cli
       
-      - name: Install Delta
-        run: sfdx plugins install @salesforce/sfdx-scanner
+     # - name: Install Delta
+     #   run: sfdx plugins install @salesforce/sfdx-scanner
+     
+      - name: Run Script
+        run: node scripts/my-test.js one,two,three
 
      # - name: pwd
      #   run: pwd
