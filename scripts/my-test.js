@@ -1,4 +1,4 @@
-var exec = require('child_process').execSync('rsync -avAXz --info=progress2 "/src" "/dest"',{stdio: 'inherit'});
+var exec = require('child_process').execSync;
 	
 
  
