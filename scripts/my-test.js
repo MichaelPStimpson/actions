@@ -35,8 +35,7 @@ let paths = [];
         process.stdout.write('5');
 	
 
-        let val = exec('find $(pwd)/force-app/* -name "' + name + '.cls"');
-	
+        exec('find $(pwd)/force-app/* -name "' + name + '.cls" > ~/searchResults.txt');
 
         process.stdout.write('6');
 	
@@ -47,7 +46,7 @@ let paths = [];
         process.stdout.write('7');
 	
 
-        exec('cp "' + val + '" "$(pwd)/temp/'  + name + '"');
+        exec('cp (cat ~searchResults.txt) "$(pwd)/temp/'  + name + '"');
 	
 
         process.stdout.write('Copied ' + name);
