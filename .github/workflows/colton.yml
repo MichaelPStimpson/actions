@@ -22,14 +22,11 @@ jobs:
      # - name: Install Delta
      #   run: sfdx plugins install @salesforce/sfdx-scanner
      
-      - name: Run Script
+      - name: Loop over files and copy them
         run: |
-          file_names="SampleClass"
-          IFS=',' read -ra files <<< "$file_names"
-          for file in "${files[@]}"
-          do
-            find . -type f -name "$file" > ~/out.txt
-            cat ~/out.txt
+          INPUT_FILES="SampleClass.cls"
+          for file in $(echo $INPUT_FILES | tr ',' ' '); do
+            find . -type f -name $file -exec cp {} ~/temp/ \;
           done
 
      # - name: pwd
