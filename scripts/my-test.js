@@ -1,43 +1,17 @@
-var exec = require('child_process').execSync(
-	
-
-    'rsync -avAXz --info=progress2 "/src" "/dest"',
-	
-
-    {stdio: 'inherit'}
-	
-
-);
+var exec = require('child_process').execSync('rsync -avAXz --info=progress2 "/src" "/dest"',{stdio: 'inherit'});
 	
 
  
 	
 
 function main() {
-	
-
-    // Parse first argument
-	
-
-    process.stdout.write('1');
-	
-
-    const arguments = process.argv.slice(2);
-	
-
-    process.stdout.write('2');
-	
-
-    const fileNames = arguments[0].split(',');
-	
-
-    process.stdout.write('3');
-	
-
-    const pwd = arguments[1];
-	
-
-    let paths = [];
+process.stdout.write('1');
+const arguments = process.argv.slice(2);
+process.stdout.write('2');
+const fileNames = arguments[0].split(',');
+process.stdout.write('3');
+const pwd = arguments[1];
+let paths = [];
 	
 
    
