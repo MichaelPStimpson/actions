@@ -31,7 +31,7 @@ let paths = [];
         exec('find $(pwd)/force-app/* -name "' + name + '.cls" > ~/searchResults.txt');
 	
 
-        exec('cp (cat ~searchResults.txt) "$(pwd)/temp/'  + name + '"');
+        exec('cp (cat ~/searchResults.txt) $(pwd)/temp/'  + name);
 	
 
 	console.log('copied', name);
