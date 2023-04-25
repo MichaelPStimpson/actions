@@ -40,7 +40,7 @@ jobs:
           JWT: ${{ secrets.JWT }}
           
       - name: test deploy
-        run: sf project deploy validate --verbose -l RunLocalTests --source-dir "force-app"
+        run: sf project deploy validate --verbose -l RunLocalTests --meta-dir "force-app"
 
      # - name: pwd
      #   run: pwd
