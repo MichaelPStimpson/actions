@@ -5,29 +5,42 @@ on: workflow_dispatch
 jobs:
   test-script:
     runs-on: ubuntu-latest
-    container: michaelpstimpson/sfdx-plus:latest
+    #container: michaelpstimpson/sfdx-plus:latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-     # - name: Install npm
-      #  uses: actions/setup-node@v2
-      #  with:
-      #    node-version: 18
-      #- name: Install salesforce
-      #  run: npm install -g sfdx-cli
+      - name: Install npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+      - name: Install salesforce
+        run: npm install -g sfdx-cli && npm install -g @salesforce/cli
       
      # - name: Install Delta
      #   run: sfdx plugins install @salesforce/sfdx-scanner
      
-      - name: Loop over files and copy them
+      - name: Auth Salesforce Environment
         run: |
-          INPUT_FILES="SampleClass.cls"
-          for file in $(echo $INPUT_FILES | tr ',' ' '); do
-            find . -type f -name $file -exec cp {} ~/temp/ \;
-          done
+          echo "SFDX_AUDIENCE_URL=https://test.salesforce.com" >> $GITHUB_ENV
+          echo "$JWT" > ~/server.key
+          sfdx force auth jwt grant \
+          --client-id $CONSUMER_KEY \
+          --jwt-key-file ~/server.key \
+          --username $USERNAME \
+          --instance-url $URL \
+          -s
+          
+        env:
+          CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
+          USERNAME: ${{ secrets.USERNAME }}
+          URL: ${{ secrets.URL }}
+          JWT: ${{ secrets.JWT }}
+          
+      - name: test deploy
+        run: sf project deploy validate --verbose -l RunLocalTests
 
      # - name: pwd
      #   run: pwd
