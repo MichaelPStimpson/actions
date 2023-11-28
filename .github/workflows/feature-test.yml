@@ -1,1 +1,54 @@
+name: Feature Test
 
+on:
+  pull_request:
+    branches:
+      - feature/**
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+    paths:
+        - 'force-app/**'
+
+jobs:
+  feature-test:
+    runs-on: ubuntu-latest
+    container: michaelpstimpson/sf-pipeline:full
+
+    steps:   
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        
+      - name: Scan
+        run: |
+          sfdx scanner:run \
+          --target "force-app" \
+          --format "json" \
+          --category Security > ~/sfdx-scanner-report.json
+          if ! grep -q "No rule violations found." ~/sfdx-scanner-report.json; then
+            exit 1
+          fi
+          cat ~/sfdx-scanner-report.json
+          
+      - name: Authenticate
+        run: |
+          echo "$AUTH_URL" > ~/AUTH_URL
+          sfdx org login sfdx-url -f ~/AUTH_URL -s
+        env:
+          AUTH_URL: ${{ secrets.AUTH_KEY }}
+          
+      - name: Build & test
+        run: sfdx force source deploy -p force-app --checkonly --testlevel=RunLocalTests
+            
+      - name: Save quick deploy ID
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'The quick deploy ID is: '
+            })
