@@ -1,1 +1,52 @@
+name: Main Deploy
 
+on: workflow_dispatch
+ inputs:
+      environment:
+        description: 'Deploy target'
+        required: true
+        default: uat
+        type: choice
+        options:
+        - dev
+        - qa
+        - uat
+        - prod
+      check-only:
+        description: 'Check deploy?'
+        type: boolean
+
+jobs:
+  main-deploy:
+    runs-on: ubuntu-latest
+    container: michaelpstimpson/sf-pipeline:full
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Authenticate
+        run: |
+          if [ ${{ inputs.environment }} != "prod" ]; then
+            echo "SFDX_AUDIENCE_URL=https://test.salesforce.com" >> $GITHUB_ENV
+          fi
+
+          if [ ${{ inputs.environment }} = "dev" ]; then
+            echo ${{ secrets.DEV_AUTH_KEY }} > ~/AUTH_URL
+          elif [ ${{ inputs.environment }} = "qa" ]; then
+            echo ${{ secrets.QA_AUTH_KEY }} > ~/AUTH_URL
+          elif [ ${{ inputs.environment }} = "uat" ]; then
+            echo ${{ secrets.UAT_AUTH_KEY }} > ~/AUTH_URL
+          elif [ ${{ inputs.environment }} = "prod" ]; then
+            echo ${{ secrets.PROD_AUTH_KEY }} > ~/AUTH_URL
+          fi
+          
+          sfdx org login sfdx-url -f ~/AUTH_URL -s
+
+      - name: Build & test
+        run: |
+          if ${{ inputs.check-only }} then
+            sfdx force source deploy -p force-app --checkonly --testlevel=RunLocalTests
+          else
+            sfdx force source deploy -p force-app
+          fi

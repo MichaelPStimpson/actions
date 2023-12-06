@@ -1,36 +1,20 @@
-name: Feature Test
+name: Main Deploy
 
 on:
-  pull_request:
+  push:
     branches:
-      - feature/**
-    types:
-      - opened
-      - edited
-      - synchronize
-      - reopened
+      - main
     paths:
       - "force-app/**"
 
 jobs:
-  feature-test:
+  main-deploy:
     runs-on: ubuntu-latest
     container: michaelpstimpson/sf-pipeline:full
 
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-
-      - name: Scan
-        run: |
-          sfdx scanner:run \
-          --target "force-app" \
-          --format "json" \
-          --category Security > ~/sfdx-scanner-report.json
-          if ! grep -q "No rule violations found." ~/sfdx-scanner-report.json; then
-            exit 1
-          fi
-          cat ~/sfdx-scanner-report.json
 
       - name: Authenticate
         run: |
