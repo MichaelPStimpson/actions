@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Authenticate
         run: |
@@ -23,7 +25,39 @@ jobs:
         env:
           AUTH_URL: ${{ secrets.QA_AUTH_KEY }}
 
+      - name: Create Packages
+        run: |
+          git config --global --add safe.directory /__w/actions/actions
+
+          BASE="origin/${{ github.base_ref }}"
+          HEAD="origin/${{ github.head_ref }}"
+          MERGE_BASE=$(git merge-base $BASE $HEAD)
+
+          mkdir ~/manifest
+          sfdx sgd:source:delta \
+          --to $HEAD \
+          --from $MERGE_BASE \
+          --source force-app \
+          --output ~/manifest \
+          --ignore .sgdignore \
+          --ignore-destructive .sgdignoreDestructive
+
+      - name: Print package
+        run: cat ~/manifest/package/package.xml
+
+      - name: Print destructive package
+        run: cat ~/manifest/destructiveChanges/destructiveChanges.xml
+
       - name: Build & test
         run: |
-          sf force source deploy -p force-app --checkonly --testlevel=RunLocalTests
+
+          #RunSpecifiedTests
+
+          sf force source deploy 
+            --sourcepath force-app \
+            --checkonly \
+            --testlevel=RunLocalTests \
+            --manifest ~/manifest/package/package.xml \
+            --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml
+
           sf project deploy quick -r
