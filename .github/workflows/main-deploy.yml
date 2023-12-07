@@ -1,4 +1,4 @@
-name: Main Deploy
+name: Deploy to QA
 
 on:
   push:
@@ -52,18 +52,11 @@ jobs:
       - name: Print destructive package
         run: cat ~/manifest/destructiveChanges/destructiveChanges.xml
 
-      - name: Build & test
+      - name: Build & deploy
         run: |
-          echo ${{ github.token }} | gh auth --hostname github.boozallencsn.com --with-token
-          node scripts/node/populateTestsToRunEnvVar.js ${{ github.event.number }}
-
-          TESTS_TO_RUN=$(cat testsToRun.txt)
-
-          sf force source deploy 
+          sf force source deploy \
             --sourcepath force-app \
             --checkonly \
-            --testlevel=RunLocalTests \
-            --runtests "$TESTS_TO_RUN" \
             --manifest ~/manifest/package/package.xml \
             --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
             --ignorewarnings \

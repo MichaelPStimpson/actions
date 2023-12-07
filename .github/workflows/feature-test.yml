@@ -81,7 +81,7 @@ jobs:
 
           TESTS_TO_RUN=$(cat testsToRun.txt)
 
-          sf force source deploy 
+          sf force source deploy \
             --sourcepath force-app \
             --checkonly \
             --testlevel=RunSpecifiedTests \

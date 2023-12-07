@@ -24,8 +24,6 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Authenticate
         run: |
@@ -49,7 +47,7 @@ jobs:
         run: |
           if ${{ inputs.check-only }} then
 
-            sf force source deploy 
+            sf force source deploy \
               --sourcepath force-app \
               --checkonly \
               --testlevel=RunLocalTests \
@@ -58,9 +56,9 @@ jobs:
 
           else
 
-            sf force source deploy 
+            sf force source deploy \
               --sourcepath force-app \
-              --testlevel=RunLocalTests
+              --testlevel=RunLocalTests \
               --ignorewarnings \
               -- verbose
 
