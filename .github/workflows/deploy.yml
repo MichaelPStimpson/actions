@@ -49,22 +49,20 @@ jobs:
         run: |
           if ${{ inputs.check-only }} then
 
-            #RunSpecifiedTests
-
             sf force source deploy 
-            --sourcepath force-app \
-            --checkonly \
-            --testlevel=RunLocalTests \
-            --ignorewarnings \
-            -- verbose
+              --sourcepath force-app \
+              --checkonly \
+              --testlevel=RunLocalTests \
+              --ignorewarnings \
+              -- verbose
 
           else
 
             sf force source deploy 
-            --sourcepath force-app \
-            --checkonly \
-            --ignorewarnings \
-            -- verbose
+              --sourcepath force-app \
+              --checkonly \
+              --ignorewarnings \
+              -- verbose
 
             sf project deploy quick -r
 

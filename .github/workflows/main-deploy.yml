@@ -39,12 +39,12 @@ jobs:
 
           mkdir ~/manifest
           sfdx sgd:source:delta \
-          --to $HEAD \
-          --from $MERGE_BASE \
-          --source force-app \
-          --output ~/manifest \
-          --ignore .sgdignore \
-          --ignore-destructive .sgdignoreDestructive
+            --to $HEAD \
+            --from $MERGE_BASE \
+            --source force-app \
+            --output ~/manifest \
+            --ignore .sgdignore \
+            --ignore-destructive .sgdignoreDestructive
 
       - name: Print package
         run: cat ~/manifest/package/package.xml
@@ -68,4 +68,5 @@ jobs:
             --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
             --ignorewarnings \
             -- verbose
+            
           sf project deploy quick -r

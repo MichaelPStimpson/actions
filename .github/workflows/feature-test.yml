@@ -29,10 +29,10 @@ jobs:
           node scripts/node/copyPrClassesToScannerDir.js ${{ github.event.number }}
 
           sfdx scanner:run \
-          --target "temp" \
-          --format "json" \
-          --pmdconfig=pmd/apex.xml \
-          --category Security > ~/sfdx-scanner-report.json
+            --target "temp" \
+            --format "json" \
+            --pmdconfig=pmd/apex.xml \
+            --category Security > ~/sfdx-scanner-report.json
 
           if ! grep -q "No rule violations found." ~/sfdx-scanner-report.json; then
             exit 1
@@ -61,12 +61,12 @@ jobs:
 
           mkdir ~/manifest
           sfdx sgd:source:delta \
-          --to $HEAD \
-          --from $MERGE_BASE \
-          --source force-app \
-          --output ~/manifest \
-          --ignore .sgdignore \
-          --ignore-destructive .sgdignoreDestructive
+            --to $HEAD \
+            --from $MERGE_BASE \
+            --source force-app \
+            --output ~/manifest \
+            --ignore .sgdignore \
+            --ignore-destructive .sgdignoreDestructive
 
       - name: Print package
         run: cat ~/manifest/package/package.xml
