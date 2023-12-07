@@ -13,13 +13,13 @@ on: workflow_dispatch
         - uat
         - prod
       check-only:
-        description: 'Check deploy?'
+        description: 'Check only deploy'
         type: boolean
 
 jobs:
   main-deploy:
     runs-on: ubuntu-latest
-    container: michaelpstimpson/sf-pipeline:full
+    container: michaelpstimpson/sf-pipeline:rc
 
     steps:
       - name: Checkout Repo
@@ -45,31 +45,6 @@ jobs:
           
           sfdx org login sfdx-url -f ~/AUTH_URL -s
 
-      - name: Create Packages
-        run: |
-          git config --global --add safe.directory /__w/actions/actions
-
-          #Replace the base ref with the latest release tag
-
-          BASE="origin/${{ github.base_ref }}"
-          HEAD="origin/${{ github.head_ref }}"
-          MERGE_BASE=$(git merge-base $BASE $HEAD)
-
-          mkdir ~/manifest
-          sfdx sgd:source:delta \
-          --to $HEAD \
-          --from $MERGE_BASE \
-          --source force-app \
-          --output ~/manifest \
-          --ignore .sgdignore \
-          --ignore-destructive .sgdignoreDestructive
-
-      - name: Print package
-        run: cat ~/manifest/package/package.xml
-
-      - name: Print destructive package
-        run: cat ~/manifest/destructiveChanges/destructiveChanges.xml
-
       - name: Build & test
         run: |
           if ${{ inputs.check-only }} then
@@ -80,17 +55,16 @@ jobs:
             --sourcepath force-app \
             --checkonly \
             --testlevel=RunLocalTests \
-            --manifest ~/manifest/package/package.xml \
-            --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml
-
-            sf project deploy quick -r
+            --ignorewarnings \
+            -- verbose
 
           else
 
             sf force source deploy 
             --sourcepath force-app \
-            --manifest ~/manifest/package/package.xml \
-            --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml
+            --checkonly \
+            --ignorewarnings \
+            -- verbose
 
             sf project deploy quick -r
 

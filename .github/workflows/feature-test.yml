@@ -15,7 +15,7 @@ on:
 jobs:
   feature-test:
     runs-on: ubuntu-latest
-    container: michaelpstimpson/sf-pipeline:full
+    container: michaelpstimpson/sf-pipeline:rc
 
     steps:
       - name: Checkout Repo
@@ -25,16 +25,19 @@ jobs:
 
       - name: Scan
         run: |
-
-          #RunSpecifiedScan
+          git remote -v
+          node scripts/node/copyPrClassesToScannerDir.js ${{ github.event.number }}
 
           sfdx scanner:run \
-          --target "force-app" \
+          --target "temp" \
           --format "json" \
+          --pmdconfig=pmd/apex.xml \
           --category Security > ~/sfdx-scanner-report.json
+
           if ! grep -q "No rule violations found." ~/sfdx-scanner-report.json; then
             exit 1
           fi
+
           cat ~/sfdx-scanner-report.json
 
       - name: Authenticate
@@ -44,12 +47,16 @@ jobs:
         env:
           AUTH_URL: ${{ secrets.QA_AUTH_KEY }}
 
+      #TODO: Investigate GitHub action container "SFDX plugins not found.", but local container no issue.
+      - name: Install SGD
+        run: echo 'y' | sfdx plugins install sfdx-git-delta
+
       - name: Create Packages
         run: |
           git config --global --add safe.directory /__w/actions/actions
 
-          BASE="origin/${{ github.base_ref }}"
-          HEAD="origin/${{ github.head_ref }}"
+          BASE="origin/${{ github.event.pull_request.base.ref }}"
+          HEAD="origin/${{ github.event.pull_request.head.ref }}"
           MERGE_BASE=$(git merge-base $BASE $HEAD)
 
           mkdir ~/manifest
@@ -69,14 +76,17 @@ jobs:
 
       - name: Build & test
         run: |
+          echo ${{ github.token }} | gh auth --hostname github.boozallencsn.com --with-token
+          node scripts/node/populateTestsToRunEnvVar.js ${{ github.event.number }}
 
-          #RunSpecifiedTests
+          TESTS_TO_RUN=$(cat testsToRun.txt)
 
           sf force source deploy 
             --sourcepath force-app \
             --checkonly \
-            --testlevel=RunLocalTests \
+            --testlevel=RunSpecifiedTests \
+            --runtests "$TESTS_TO_RUN" \
             --manifest ~/manifest/package/package.xml \
-            --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml
-
-          sf project deploy quick -r
+            --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
+            --ignorewarnings \
+            -- verbose

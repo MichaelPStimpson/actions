@@ -10,7 +10,7 @@ on:
 jobs:
   main-deploy:
     runs-on: ubuntu-latest
-    container: michaelpstimpson/sf-pipeline:full
+    container: michaelpstimpson/sf-pipeline:rc
 
     steps:
       - name: Checkout Repo
@@ -25,12 +25,16 @@ jobs:
         env:
           AUTH_URL: ${{ secrets.QA_AUTH_KEY }}
 
+        #TODO: Investigate GitHub action container "SFDX plugins not found.", but local container no issue.
+      - name: Install SGD
+        run: echo 'y' | sfdx plugins install sfdx-git-delta
+
       - name: Create Packages
         run: |
           git config --global --add safe.directory /__w/actions/actions
 
-          BASE="origin/${{ github.base_ref }}"
-          HEAD="origin/${{ github.head_ref }}"
+          BASE="origin/${{ github.event.before }}"
+          HEAD="origin/${{ github.event.after }}"
           MERGE_BASE=$(git merge-base $BASE $HEAD)
 
           mkdir ~/manifest
@@ -50,14 +54,18 @@ jobs:
 
       - name: Build & test
         run: |
+          echo ${{ github.token }} | gh auth --hostname github.boozallencsn.com --with-token
+          node scripts/node/populateTestsToRunEnvVar.js ${{ github.event.number }}
 
-          #RunSpecifiedTests
+          TESTS_TO_RUN=$(cat testsToRun.txt)
 
           sf force source deploy 
             --sourcepath force-app \
             --checkonly \
             --testlevel=RunLocalTests \
+            --runtests "$TESTS_TO_RUN" \
             --manifest ~/manifest/package/package.xml \
-            --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml
-
+            --postdestructivechanges ~/manifest/destructiveChanges/destructiveChanges.xml \
+            --ignorewarnings \
+            -- verbose
           sf project deploy quick -r
