@@ -60,7 +60,7 @@ jobs:
 
             sf force source deploy 
               --sourcepath force-app \
-              --checkonly \
+              --testlevel=RunLocalTests
               --ignorewarnings \
               -- verbose
 

@@ -3,7 +3,7 @@ name: Feature Test
 on:
   pull_request:
     branches:
-      - feature/**
+      - main
     types:
       - opened
       - edited
